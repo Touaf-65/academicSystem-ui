@@ -1,0 +1,30 @@
+<ng-container *ngIf="isOpen">
+  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 dark:bg-black/40 transition-colors duration-300" (click)="closeModal()">
+    <div class="relative rounded-xl shadow-custom border border-border w-11/12 mx-4 bg-background text-foreground transition-all duration-300"
+         [ngClass]="{
+            'max-w-sm': size === 'sm',
+            'max-w-md': size === 'md',
+            'max-w-lg': size === 'lg',
+            'max-w-xl': size === 'xl',
+            'max-w-2xl': size === '2xl',
+            'max-w-3xl': size === '3xl',
+            'max-w-4xl': size === '4xl',
+            'max-w-5xl': size === '5xl'
+         }"
+         (click)="$event.stopPropagation()">
+      <!-- Modal Header -->
+      <div class="flex justify-between items-center p-4 border-b border-border bg-card rounded-t-xl">
+        <div>
+          <h3 class="font-bold text-xl text-foreground text-center">{{ title }}</h3>
+        </div>
+        <button (click)="closeModal()" class="btn btn-xs btn-outline btn-neutral">
+          X
+        </button>
+      </div>
+      <!-- Modal Body -->
+      <div class="p-4">
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </div>
+</ng-container>

@@ -1,0 +1,177 @@
+<app-notifications></app-notifications>
+
+<div class="container mx-auto px-4 py-6 space-y-8">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6 rounded-xl bg-background p-4 border border-border/50 shadow-sm">
+
+        <div>
+            <h1 class="text-2xl font-semibold text-foreground">
+                Journal de bord
+            </h1>
+            <p class="text-sm text-muted-foreground mt-1">
+                Consignez vos activités, compétences et difficultés chaque semaine.
+            </p>
+        </div>
+
+        <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition"
+            (click)="openCreateModal()">
+            + Nouvelle entrée
+        </button>
+
+    </div>
+
+    <!-- Contenu -->
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+
+        <!-- Filtres -->
+        <div class="lg:col-span-1">
+
+            <div class="rounded-xl border border-border/50 bg-background p-5 shadow-sm">
+
+                <h3 class="text-sm font-semibold text-foreground mb-4">Filtres</h3>
+
+                <!-- Période -->
+                <div class="mb-4">
+                    <label class="text-xs text-muted-foreground">Période</label>
+                    <select class="w-full mt-1 px-3 py-2 border border-border rounded-lg bg-background text-sm">
+                        <option>Toutes les périodes</option>
+                    </select>
+                </div>
+
+                <!-- Recherche -->
+                <div class="mb-4">
+                    <label class="text-xs text-muted-foreground">Recherche</label>
+                    <input type="text" placeholder="Rechercher..."
+                        class="w-full mt-1 px-3 py-2 border border-border rounded-lg text-sm" />
+                </div>
+
+                <!-- Reset -->
+                <button class="text-sm text-blue-600 hover:underline flex items-center gap-1">
+                    ↻ Réinitialiser
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- Liste -->
+        <div class="lg:col-span-3 space-y-4">
+
+            <!-- ITEM -->
+
+            <div *ngFor="let j of journaux"
+                class="flex items-center justify-between p-4 rounded-xl border border-border/50 bg-background shadow-sm hover:shadow-md transition cursor-pointer"
+                (click)="openView(j)">
+
+                <!-- LEFT -->
+                <div class="flex items-center gap-4">
+
+                    <!-- DATE -->
+                    <div class="text-center w-12">
+                        <p class="text-lg font-bold text-foreground">6</p>
+                        <p class="text-xs text-muted-foreground uppercase">Mai</p>
+                    </div>
+
+                    <!-- CONTENT -->
+                    <div>
+                        <p class="font-medium text-foreground">
+                            {{ j.title }}
+                        </p>
+                        <p class="text-sm text-muted-foreground">
+                            {{ j.description }}
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT -->
+                <div class="flex items-center gap-4">
+
+                    <p class="text-sm text-muted-foreground">
+                        {{ j.date | date:'dd MMM yyyy'}}
+                    </p>
+
+                    <span class="text-muted-foreground">›</span>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <app-modal [isOpen]="modalCreateOpen" [title]="'Nouvelle entrée journal'" [size]="'lg'"
+        (close)="closeCreateModal()">
+
+        <div class="space-y-4">
+
+            <!-- <input type="text"
+           [(ngModel)]="form.title"
+           placeholder="Titre de la semaine"
+           class="input input-bordered w-full"/>
+
+     <input type="text"
+           [(ngModel)]="form.week"
+           placeholder="Semaine (ex: Semaine 5)"
+           class="input input-bordered w-full"/>
+
+    <textarea [(ngModel)]="form.description"
+              placeholder="Description"
+              class="textarea textarea-bordered w-full"></textarea>
+
+    <input type="date"
+           [(ngModel)]="form.date"
+           class="input input-bordered w-full"/> -->
+
+            <div class="flex justify-end gap-2 mt-4">
+
+                <button class="btn btn-primary">
+                    Enregistrer
+                </button>
+
+                <button class="btn btn-neutral" (click)="closeCreateModal()">
+                    Annuler
+                </button>
+
+            </div>
+
+        </div>
+
+    </app-modal>
+
+    <app-modal [isOpen]="modalViewOpen" [title]="'Détail journal'" [size]="'lg'" (close)="closeView()">
+
+        <div *ngIf="selectedJournal" class="space-y-4">
+
+            <div>
+                <p class="text-sm text-muted-foreground">Titre</p>
+                <p class="font-semibold text-foreground">
+                    {{ selectedJournal.title }}
+                </p>
+            </div>
+
+            <div>
+                <p class="text-sm text-muted-foreground">Semaine</p>
+                <p>{{ selectedJournal.week }}</p>
+            </div>
+
+            <div>
+                <p class="text-sm text-muted-foreground">Description</p>
+                <p>{{ selectedJournal.description }}</p>
+            </div>
+
+            <div>
+                <p class="text-sm text-muted-foreground">Date</p>
+                <p>{{ selectedJournal.date | date:'dd MMM yyyy' }}</p>
+            </div>
+
+            <div class="flex justify-end">
+                <button class="btn btn-neutral" (click)="closeView()">
+                    Fermer
+                </button>
+            </div>
+
+        </div>
+
+    </app-modal>

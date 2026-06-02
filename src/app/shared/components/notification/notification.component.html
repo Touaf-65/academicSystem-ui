@@ -1,0 +1,50 @@
+<div class="notification-container">
+  <div 
+    *ngFor="let notification of notifications; trackBy: trackByFn"
+    class="notification"
+    [class]="'notification-' + notification.type"
+    [@slideIn]="'in'"
+    (@slideIn.done)="onAnimationDone($event, notification)">
+    
+    <!-- Icône selon le type de notification -->
+    <div class="notification-icon">
+      <!-- Icône Succès -->
+      <svg *ngIf="notification.type === 'success'" width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      
+      <!-- Icône Erreur -->
+      <svg *ngIf="notification.type === 'error'" width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M12 9V13M12 17H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      
+      <!-- Icône Avertissement -->
+      <svg *ngIf="notification.type === 'warning'" width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M12 9V13M12 17H12.01M10.29 3.86L1.82 18A2 2 0 0 0 3.24 21H20.76A2 2 0 0 0 22.18 18L13.71 3.86A2 2 0 0 0 10.29 3.86Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      
+      <!-- Icône Information -->
+      <svg *ngIf="notification.type === 'info'" width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M12 16V12M12 8H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    
+    <!-- Contenu de la notification -->
+    <div class="notification-content">
+      <h4 class="notification-title">{{ notification.title }}</h4>
+      <p class="notification-message">{{ notification.message }}</p>
+    </div>
+    
+    <!-- Bouton de fermeture -->
+    <button 
+      *ngIf="notification.closable"
+      class="notification-close"
+      (click)="removeNotification(notification.id)"
+      type="button"
+      aria-label="Fermer la notification">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+</div>

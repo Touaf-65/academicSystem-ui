@@ -1,0 +1,120 @@
+<div class="container mx-auto px-4 py-6 space-y-8">
+
+  <!-- Statistics -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+
+    <!-- Card 1 -->
+    <div class="rounded-xl bg-background p-6 border border-border/50 shadow-sm hover:shadow-md transition">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-muted-foreground">Bâtiments</p>
+          <p class="text-2xl font-bold text-foreground">45</p>
+        </div>
+        <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-full">
+          <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 8v4l3 3M12 2a10 10 0 100 20 10 10 0 000-20z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="rounded-xl bg-background p-6 border border-border/50 shadow-sm hover:shadow-md transition">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-muted-foreground">Etages</p>
+          <p class="text-2xl font-bold text-foreground">12</p>
+        </div>
+        <div class="p-3 bg-green-50 dark:bg-green-900/20 rounded-full">
+          <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="rounded-xl bg-background p-6 border border-border/50 shadow-sm hover:shadow-md transition">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-muted-foreground">Total Salles</p>
+          <p class="text-2xl font-bold text-foreground">3</p>
+        </div>
+        <div class="p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-full">
+          <svg class="w-6 h-6 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 8v4m0 4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="rounded-xl bg-background p-6 border border-border/50 shadow-sm hover:shadow-md transition">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-muted-foreground">En Maintenance</p>
+          <p class="text-2xl font-bold text-foreground">15</p>
+        </div>
+        <div class="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-full">
+          <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9 17v-6h6v6M5 21h14M7 10V6h10v4" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-4  mb-8">
+    <div class="flex flex-col col-span-3 rounded-lg bg-background p-4 border border-border/50 mr-6">
+      <div class="mb-4">
+        <h2 class="text-md font-medium text-foreground">Nombre de salles par bâtiments</h2>
+      </div>
+      <app-column-chart></app-column-chart>
+    </div>
+
+    <div class="flex flex-col rounded-lg bg-background p-4 border border-border/50">
+      <div class="mb-4">
+        <h2 class="text-md font-medium text-foreground">Répartition par type de salles</h2>
+      </div>
+      <app-pie-chart></app-pie-chart>
+    </div>
+  </div>
+
+  <div class="gap-6 mb-8">
+
+    <!-- Dernière entrée journal -->
+    <div class="rounded-xl bg-background p-6 border border-border/50 shadow-sm hover:shadow-md transition">
+
+      <!-- Header -->
+      <div class=" items-center justify-between mb-4">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <p class="text-sm font-medium text-muted-foreground">Salles les plus utilisées</p>
+          </div>
+        </div>
+        <div>
+          <hr class="mb-3">
+          <a href=""
+             class="text-sm font-medium text-blue-600 hover:underline flex items-center gap-1">
+            Voir tout →
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+</div>

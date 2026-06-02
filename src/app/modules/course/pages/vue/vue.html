@@ -1,0 +1,178 @@
+<div class="container mx-auto px-4 py-6 space-y-8">
+
+  <!-- Statistics -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+
+    <!-- Card 1 -->
+    <div class="rounded-xl bg-background p-6 border border-border/50 shadow-sm hover:shadow-md transition px-8">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-muted-foreground">Départements</p>
+          <p class="text-2xl font-bold text-foreground">45</p>
+        </div>
+        <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-full">
+          <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 8v4l3 3M12 2a10 10 0 100 20 10 10 0 000-20z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="rounded-xl bg-background p-6 border border-border/50 shadow-sm hover:shadow-md transition px-8">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-muted-foreground">Enseignants</p>
+          <p class="text-2xl font-bold text-foreground">12</p>
+        </div>
+        <div class="p-3 bg-green-50 dark:bg-green-900/20 rounded-full">
+          <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="rounded-xl bg-background p-6 border border-border/50 shadow-sm hover:shadow-md transition px-8">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-muted-foreground">Cours</p>
+          <p class="text-2xl font-bold text-foreground">3</p>
+        </div>
+        <div class="p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-full">
+          <svg class="w-6 h-6 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 8v4m0 4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+    <div class="">
+
+      <div class="flex flex-col rounded-lg bg-background border border-border/50">
+        <!-- <app-data-widget></app-data-widget> -->
+        <app-pie-chart></app-pie-chart>
+      </div>
+
+      <div class="mt-2">
+
+        <!-- Card Informations -->
+        <div
+          class="rounded-xl border border-border/50 bg-background/50 shadow-lg hover:shadow-xl transition-shadow duration-300 p-2">
+
+          <!-- Header -->
+          <div class="flex items-center justify-between mb-1">
+
+            <h3 class="text-lg font-semibold text-foreground">
+              Informations
+            </h3>
+
+            <!-- Icône info -->
+            <div
+              class="flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-primary">
+
+              <svg
+                class="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24">
+
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z">
+                </path>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Content -->
+          <div
+            class="rounded-xl border border-border/50 bg-background p-5">
+
+            <!-- Liste -->
+            <div class="space-y-4">
+
+              <!-- Cours -->
+              <div class="flex items-center gap-2">
+
+                <div
+                  class="flex h-6 w-6 items-center justify-center rounded-lg bg-primary/10 text-primary">
+
+                  <svg
+                    class="h-4 w-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24">
+
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                    </path>
+                  </svg>
+                </div>
+
+                <span class="text-sm font-medium text-foreground">
+          Cours : appartient à un département
+        </span>
+                <p class="text-sm leading-relaxed text-muted-foreground mb-2">
+
+                </p>
+              </div>
+
+
+              <!-- Niveau -->
+              <div class="flex items-center gap-2">
+
+                <div
+                  class="flex h-6 w-6 items-center justify-center rounded-lg bg-primary/10 text-primary">
+
+                  <svg
+                    class="h-4 w-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24">
+
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 12h14M12 5l7 7-7 7">
+                    </path>
+                  </svg>
+                </div>
+
+                <span class="text-sm font-medium text-foreground">
+          Cours: assignable à plusieurs enseignants
+        </span>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="flex flex-col col-span-3 rounded-lg bg-background p-4 border border-border/50">
+    </div>
+  </div>
+
+
+
+</div>
