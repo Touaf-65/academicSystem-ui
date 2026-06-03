@@ -4,6 +4,8 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideAngularSvgIcon } from 'angular-svg-icon';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { importProvidersFrom } from '@angular/core';
+import { JWT_OPTIONS, JwtModule } from '@auth0/angular-jwt';
+
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
@@ -17,6 +19,15 @@ export const appConfig: ApplicationConfig = {
     provideAngularSvgIcon(),
     provideAnimations(),
 
-    importProvidersFrom(FontAwesomeModule)
-  ]
+    importProvidersFrom(FontAwesomeModule),
+
+    {
+      provide: JWT_OPTIONS,
+      useValue: {
+        allowedDomains: ['localhost:8091'],
+        disallowedRoutes: [],
+      },
+    },
+    JwtModule,
+  ],
 };

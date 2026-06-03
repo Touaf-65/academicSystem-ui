@@ -1,11 +1,15 @@
-
-import {Component, OnInit, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
-import {animate, state, style, transition, trigger} from "@angular/animations";
-import {ThemeService} from "../../../../../core/services/theme.service";
+import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { ThemeService } from '../../../../../core/services/theme.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ClickOutsideDirective } from '../../../../../shared/directives/click-outside.directive';
 import { SvgIconComponent } from 'angular-svg-icon';
+import { Action } from 'rxjs/internal/scheduler/Action';
+import { UserService } from '../../../../authentication/services/user/user.service';
+import { NotificationService } from '../../../../../shared/components/notification/notification.service';
+import { timer } from 'rxjs';
+
 @Component({
   selector: 'app-profile-menu',
   templateUrl: './profile-menu.component.html',
@@ -36,18 +40,22 @@ import { SvgIconComponent } from 'angular-svg-icon';
     ]),
   ],
 })
-export class ProfileMenuComponent implements OnInit{
-  public isOpen= false;
-  public profileMenu=[
+export class ProfileMenuComponent implements OnInit {
+  public isOpen = false;
+  public isDarkMode = false;
+  public currentUser: any = null;
+  public profileMenu = [
     {
-      title: 'Your Profile',
+      title: 'Profile',
       icon: '/assets/icons/heroicons/outline/user-circle.svg',
       link: 'dashboard/profile',
+      action: null,
     },
     {
       title: 'Log out',
       icon: '/assets/icons/heroicons/outline/logout.svg',
-      link: '/auth',
+      link: 'null',
+      action: 'logout',
     },
   ];
   public themeColors = [
@@ -60,26 +68,59 @@ export class ProfileMenuComponent implements OnInit{
       name: 'red',
       code: '#cc0022',
     },
+    {
+      name: 'blue',
+      code: '#007bff',
+    },
+
+    {
+      name: 'green',
+      code: '#28a745',
+    },
   ];
   public themeMode = ['light', 'dark'];
-  ngOnInit() {
 
-  }
-  constructor(public themeService:ThemeService) {
+  constructor(
+    public themeService: ThemeService,
+    public userService: UserService,
+    public notificationService: NotificationService,
+  ) {}
+
+  ngOnInit(): void {
+    this.currentUser = this.userService.getConnectedUser();
   }
 
-  toggleMenu():void{
-    this.isOpen= !this.isOpen;
+  toggleMenu(): void {
+    this.isOpen = !this.isOpen;
   }
-  toggleThemeMode(){
-    this.themeService.theme.update((theme)=>{
-      const mode= !this.themeService.isDark ? 'dark' : 'light';
-      return {...theme, mode:mode};
+
+  handleMenuAction(action: string | null, link: string | null) {
+    if (action === 'logout') {
+      this.logout();
+    } else if (link) {
+      // Navigation normale pour les autres liens
+      window.location.href = link;
+    }
+  }
+
+  logout() {
+    this.notificationService.success('Déconnexion réussie', 'Vous êtes maintenant déconnecté');
+
+    // Attendre 1 seconde avant de déconnecter pour laisser le temps à la notification d'apparaître
+    timer(1000).subscribe(() => {
+      this.userService.logout();
     });
   }
-  toggleThemeColor(color:string){
-    this.themeService.theme.update((theme)=>{
-      return {...theme, color: color};
+
+  toggleThemeMode() {
+    this.themeService.theme.update((theme) => {
+      const mode = !this.themeService.isDark ? 'dark' : 'light';
+      return { ...theme, mode: mode };
+    });
+  }
+  toggleThemeColor(color: string) {
+    this.themeService.theme.update((theme) => {
+      return { ...theme, color: color };
     });
   }
 }
