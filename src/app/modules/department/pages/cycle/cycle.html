@@ -1,155 +1,98 @@
+<app-notifications></app-notifications>
+
 <div class="container mx-auto px-4 py-6 space-y-8">
 
-  <div class="flex flex-col  col-span-3 rounded-lg bg-background p-4 border border-border/50 shadow-lg hover:shadow-xl transition-shadow duration-300">
+  <div class="flex flex-col col-span-3 rounded-lg bg-background p-4 border border-border/50 shadow-lg hover:shadow-xl transition-shadow duration-300">
 
-    <!-- Container principal -->
     <!-- Header -->
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-
-      <!-- Titre -->
       <div>
-        <h2 class="text-xl font-semibold text-foreground">
-          Cycles
-        </h2>
-
-        <p class="text-sm text-muted-foreground mt-1">
-          Gestion des cycles
-        </p>
+        <h2 class="text-xl font-semibold text-foreground">Cycles</h2>
+        <p class="text-sm text-muted-foreground mt-1">Gestion des cycles</p>
       </div>
 
-      <!-- Bouton ajout -->
       <button
-        class="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow hover:opacity-90 transition-all duration-200">
-
+        class="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow hover:opacity-90 transition-all duration-200"
+        (click)="openModalCreateCycle()">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M12 4v16m8-8H4">
-          </path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
         </svg>
-
         Ajouter un cycle
       </button>
     </div>
 
-    <!-- Select Container -->
-    <div class="grid grid-cols-1 md:grid-cols-5 flex flex-col md:flex-row md:items-center md:justify-between gap-5 mb-6">
+    <!-- Filtres -->
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-5 mb-6">
 
-      <!-- Select Wrapper -->
-      <div class="mb-6 relative col-span-2">
-
-        <!-- Select -->
+      <!-- Select Programme (dynamique) -->
+      <div class="relative col-span-2">
         <select
-          id="department"
           class="w-full appearance-none rounded-lg border border-border bg-background px-4 py-2.5 pr-10 text-sm text-foreground shadow-sm outline-none transition-all duration-200 hover:border-primary/40 focus:border-primary focus:ring-2 focus:ring-primary/20">
-
-          <option value="">
-            Sélectionner un programme
-          </option>
-
-          <option value="fst">
-            Faculté des Sciences et Technologies
-          </option>
-
-          <option value="fse">
-            Faculté des Sciences Économiques
-          </option>
-
-          <option value="flsh">
-            Faculté des Lettres et Sciences Humaines
-          </option>
-
-          <option value="fm">
-            Faculté de Médecine
-          </option>
-
+          <option value="">Sélectionner un programme</option>
+          <option *ngFor="let prog of programs" [value]="prog.id">{{ prog.nom }}</option>
         </select>
-
-        <!-- Icon -->
-        <div
-          class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground">
-
-          <svg
-            class="h-4 w-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m19 9-7 7-7-7">
-            </path>
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground">
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"></path>
           </svg>
         </div>
       </div>
 
       <!-- Barre de recherche -->
-      <div class="mb-6 col-span-3">
+      <div class="col-span-3">
         <div class="relative w-full">
-
-          <!-- Icon -->
           <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg class="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="m21 21-4.35-4.35M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z">
-              </path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="m21 21-4.35-4.35M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z"></path>
             </svg>
           </div>
-
-          <!-- Input -->
           <input
             type="text"
             placeholder="Rechercher un cycle..."
             class="w-full rounded-lg border border-border bg-background px-10 py-2.5 text-sm text-foreground outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/20">
         </div>
       </div>
-
     </div>
 
     <!-- Table -->
     <div class="overflow-x-auto rounded-xl border border-border/50">
-
       <table class="w-full text-sm text-left text-foreground">
 
-        <!-- Header -->
         <thead class="bg-background border-b border-border/50 text-xs uppercase text-muted-foreground">
         <tr>
           <th class="px-6 py-4 font-semibold">Nom du cycle</th>
           <th class="px-6 py-4 font-semibold">Code</th>
-          <th class="px-6 py-4 font-semibold text-center">Niveaux</th>
+          <th class="px-6 py-4 font-semibold text-center">Programme</th>
+          <th class="px-6 py-4 font-semibold text-center">Durée (ans)</th>
           <th class="px-6 py-4 font-semibold text-center">Actions</th>
         </tr>
         </thead>
 
-        <!-- Body -->
         <tbody>
+        <tr
+          *ngFor="let c of filteredCycles; let i = index"
+          [ngClass]="{'bg-background': i % 2 === 1}"
+          class="border-b border-border/40 hover:bg-muted/40 transition-colors duration-200 cursor-pointer">
 
-        <!-- Row 1 -->
-        <tr class="border-b border-border/40 hover:bg-muted/40 transition-colors duration-200">
-
-          <td class="px-6 py-4 font-medium">
-            Licence
-          </td>
+          <td class="px-6 py-4 font-medium">{{ c.nom }}</td>
 
           <td class="px-6 py-4">
-            <span
-              class="inline-flex items-center rounded-md bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
-              FST
-            </span>
+              <span class="inline-flex items-center rounded-md bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
+                {{ c.code }}
+              </span>
           </td>
 
           <td class="px-6 py-4 text-center">
-            <span
-              class="inline-flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 px-3 py-1 text-xs font-semibold text-green-700 dark:text-green-300">
-              3
-            </span>
+              <span class="inline-flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 px-3 py-1 text-xs font-semibold text-blue-700 dark:text-blue-300">
+                {{ getProgramName(c.programId) }}
+              </span>
+          </td>
+
+          <td class="px-6 py-4 text-center">
+              <span class="inline-flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 px-3 py-1 text-xs font-semibold text-green-700 dark:text-green-300">
+                {{ c.dureeAnnees }}
+              </span>
           </td>
 
           <!-- Actions -->
@@ -157,305 +100,216 @@
             <div class="flex items-center justify-center gap-3">
 
               <!-- Voir -->
-              <button class="text-primary hover:text-primary/70 transition-colors">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z">
-                  </path>
-                </svg>
-              </button>
-
-              <!-- Edit -->
-              <button class="text-amber-500 hover:text-amber-600 transition-colors">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5Z">
-                  </path>
-                </svg>
-              </button>
-
-              <!-- Delete -->
-              <button class="text-red-500 hover:text-red-600 transition-colors">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 7h12">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 7V4h6v3">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M10 11v6">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M14 11v6">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 7l1 13h12l1-13">
-                  </path>
-                </svg>
-              </button>
-
-            </div>
-          </td>
-        </tr>
-
-        <!-- Row 2 -->
-        <tr class="border-b border-border/40 hover:bg-muted/40 transition-colors duration-200 bg-muted/10">
-
-          <td class="px-6 py-4 font-medium">
-          Master
-          </td>
-
-          <td class="px-6 py-4">
-            <span
-              class="inline-flex items-center rounded-md bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
-              FSE
-            </span>
-          </td>
-
-          <td class="px-6 py-4 text-center">
-            <span
-              class="inline-flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 px-3 py-1 text-xs font-semibold text-green-700 dark:text-green-300">
-              2
-            </span>
-          </td>
-          <td class="px-6 py-4">
-            <div class="flex items-center justify-center gap-3">
-
-              <button class="text-primary hover:text-primary/70 transition-colors">
+              <button class="text-primary hover:text-primary/70 transition-colors"
+                      (click)="openModalViewCycle(c)">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z">
-                  </path>
-
+                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path>
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z">
-                  </path>
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z"></path>
                 </svg>
               </button>
 
-              <button class="text-amber-500 hover:text-amber-600 transition-colors">
-                ✏️
-              </button>
-
-              <button class="text-red-500 hover:text-red-600 transition-colors">
-                🗑️
-              </button>
-
-            </div>
-          </td>
-        </tr>
-
-        <!-- Row 1 -->
-        <tr class="border-b border-border/40 hover:bg-muted/40 transition-colors duration-200">
-
-          <td class="px-6 py-4 font-medium">
-          Doctorat
-          </td>
-
-          <td class="px-6 py-4">
-            <span
-              class="inline-flex items-center rounded-md bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
-              FST
-            </span>
-          </td>
-
-          <td class="px-6 py-4 text-center">
-            <span
-              class="inline-flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 px-3 py-1 text-xs font-semibold text-green-700 dark:text-green-300">
-              3
-            </span>
-          </td>
-
-          <!-- Actions -->
-          <td class="px-6 py-4">
-            <div class="flex items-center justify-center gap-3">
-
-              <!-- Voir -->
-              <button class="text-primary hover:text-primary/70 transition-colors">
-
+              <!-- Modifier -->
+              <button class="text-amber-500 hover:text-amber-600 transition-colors"
+                      (click)="openEditCycle(c)">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z">
-                  </path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5Z"></path>
                 </svg>
               </button>
 
-              <!-- Edit -->
-              <button class="text-amber-500 hover:text-amber-600 transition-colors">
-
+              <!-- Supprimer -->
+              <button class="text-red-500 hover:text-red-600 transition-colors"
+                      (click)="openDeleteCycle(c)">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5Z">
-                  </path>
-                </svg>
-              </button>
-
-              <!-- Delete -->
-              <button class="text-red-500 hover:text-red-600 transition-colors">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 7h12">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 7V4h6v3">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M10 11v6">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M14 11v6">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 7l1 13h12l1-13">
-                  </path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 7h12"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7V4h6v3"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11v6"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 11v6"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7l1 13h12l1-13"></path>
                 </svg>
               </button>
 
             </div>
           </td>
         </tr>
-
         </tbody>
       </table>
     </div>
 
     <!-- Footer -->
     <div class="mt-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-
-      <!-- Results -->
       <p class="text-sm text-muted-foreground">
         Affichage de
-        <span class="font-medium text-foreground">1</span>
-        à
-        <span class="font-medium text-foreground">2</span>
-        sur
-        <span class="font-medium text-foreground">6</span>
-        résultats
+        <span class="font-medium text-foreground">{{ filteredCycles.length }}</span>
+        résultat(s)
       </p>
 
-      <!-- Pagination -->
       <div class="flex items-center gap-2">
-
-        <!-- Previous -->
-        <button
-          class="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground hover:bg-muted transition-colors">
-
+        <button class="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground hover:bg-muted transition-colors">
           <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m15 19-7-7 7-7">
-            </path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"></path>
           </svg>
         </button>
-
-        <!-- Active page -->
-        <button
-          class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-medium shadow">
-          1
-        </button>
-
-        <!-- Next -->
-        <button
-          class="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground hover:bg-muted transition-colors">
-
+        <button class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-medium shadow">1</button>
+        <button class="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground hover:bg-muted transition-colors">
           <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m9 5 7 7-7 7">
-            </path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"></path>
           </svg>
         </button>
-
       </div>
     </div>
 
   </div>
-
 </div>
+
+<!-- ═══════════════════════════════════════
+     Modal : Créer
+═══════════════════════════════════════ -->
+<app-modal [isOpen]="modalCreateOpen" title="Ajouter un cycle" [size]="'lg'" (close)="closeModalCreateCycle()">
+
+  <div class="flex flex-col md:flex-row gap-4 justify-between mb-4">
+    <div class="form__group">
+      <label for="code">Code</label>
+      <input type="text" id="code" class="form__input" [(ngModel)]="code">
+    </div>
+    <div class="form__group">
+      <label for="nom">Nom</label>
+      <input type="text" id="nom" class="form__input" [(ngModel)]="nom">
+    </div>
+  </div>
+
+  <div class="flex flex-col md:flex-row gap-4 justify-between mb-4">
+    <div class="form__group">
+      <label for="dureeAnnees">Durée (années)</label>
+      <input type="number" id="dureeAnnees" class="form__input" [(ngModel)]="dureeAnnees" min="1">
+    </div>
+    <div class="form__group">
+      <label for="programCreate">Programme</label>
+      <select id="programCreate" class="form__input" [(ngModel)]="programId">
+        <option [ngValue]="null" disabled>Sélectionner un programme</option>
+        <option *ngFor="let prog of programs" [ngValue]="prog.id">{{ prog.nom }}</option>
+      </select>
+    </div>
+  </div>
+
+  <hr>
+  <div class="flex justify-center gap-2 mt-4">
+    <button
+      class="flex-none rounded-md bg-primary px-4 py-2.5 text-xs font-semibold text-primary-foreground"
+      (click)="createCycle()">Créer</button>
+    <button
+      class="flex-none rounded-md bg-gray-900 px-4 py-2.5 text-xs font-semibold text-primary-foreground"
+      (click)="closeModalCreateCycle()">Annuler</button>
+  </div>
+
+</app-modal>
+
+<!-- ═══════════════════════════════════════
+     Modal : Voir
+═══════════════════════════════════════ -->
+<app-modal [isOpen]="modalViewOpen" [title]="'Cycle : ' + (cycleToView?.nom || '')" [size]="'lg'" (close)="closeModalViewCycle()">
+
+  <div class="flex flex-col md:flex-row gap-4 justify-between mb-4">
+    <div class="form__group">
+      <label for="code_v">Code</label>
+      <input type="text" id="code_v" class="form__input" [value]="cycleToView?.code || ''" readonly>
+    </div>
+    <div class="form__group">
+      <label for="nom_v">Nom</label>
+      <input type="text" id="nom_v" class="form__input" [value]="cycleToView?.nom || ''" readonly>
+    </div>
+  </div>
+
+  <div class="flex flex-col md:flex-row gap-4 justify-between mb-4">
+    <div class="form__group">
+      <label for="duree_v">Durée (années)</label>
+      <input type="text" id="duree_v" class="form__input" [value]="cycleToView?.dureeAnnees || ''" readonly>
+    </div>
+    <div class="form__group">
+      <label>Programme</label>
+      <input type="text" class="form__input" [value]="getProgramName(cycleToView?.programId!)" readonly>
+    </div>
+  </div>
+
+  <hr>
+  <div class="flex justify-center gap-2 mt-4">
+    <button
+      class="flex-none rounded-md bg-gray-900 px-4 py-2.5 text-xs font-semibold text-primary-foreground"
+      (click)="closeModalViewCycle()">Fermer</button>
+  </div>
+
+</app-modal>
+
+<!-- ═══════════════════════════════════════
+     Modal : Modifier
+═══════════════════════════════════════ -->
+<app-modal [isOpen]="modalEditOpen" [title]="'Modifier : ' + (cycleToEdit?.nom || '')" [size]="'lg'" (close)="closeModalEditCycle()">
+
+  <div class="flex flex-col md:flex-row gap-4 justify-between mb-4">
+    <div class="form__group">
+      <label for="code_e">Code</label>
+      <input type="text" id="code_e" class="form__input" [(ngModel)]="editCode">
+    </div>
+    <div class="form__group">
+      <label for="nom_e">Nom</label>
+      <input type="text" id="nom_e" class="form__input" [(ngModel)]="editNom">
+    </div>
+  </div>
+
+  <div class="flex flex-col md:flex-row gap-4 justify-between mb-4">
+    <div class="form__group">
+      <label for="duree_e">Durée (années)</label>
+      <input type="number" id="duree_e" class="form__input" [(ngModel)]="editDureeAnnees" min="1">
+    </div>
+    <div class="form__group">
+      <label for="programEdit">Programme</label>
+      <select id="programEdit" class="form__input" [(ngModel)]="editProgramId">
+        <option [ngValue]="null" disabled>Sélectionner un programme</option>
+        <option *ngFor="let prog of programs" [ngValue]="prog.id">{{ prog.nom }}</option>
+      </select>
+    </div>
+  </div>
+
+  <hr>
+  <div class="flex justify-center gap-2 mt-4">
+    <button
+      class="flex-none rounded-md bg-primary px-4 py-2.5 text-xs font-semibold text-primary-foreground"
+      (click)="editCycle()">Enregistrer</button>
+    <button
+      class="flex-none rounded-md bg-gray-900 px-4 py-2.5 text-xs font-semibold text-primary-foreground"
+      (click)="closeModalEditCycle()">Annuler</button>
+  </div>
+
+</app-modal>
+
+<!-- ═══════════════════════════════════════
+     Modal : Supprimer
+═══════════════════════════════════════ -->
+<app-modal [isOpen]="modalDeleteOpen" [title]="'Supprimer cycle'" [size]="'md'" (close)="closeModalDeleteCycle()">
+
+  <p class="text-lg text-justify text-red-700 dark:text-red-400">
+    Êtes-vous sûr de vouloir
+    <span class="font-semibold text-red-600 dark:text-red-300">supprimer le cycle</span>
+    &nbsp;
+    <span class="font-bold text-slate-800 dark:text-white">{{ cycleToDelete?.nom }}</span>&nbsp;?
+  </p>
+  <br>
+  <p class="text-xs text-gray-500 dark:text-zinc-300 mt-2">
+    Cette action supprimera définitivement le cycle du système.
+  </p>
+  <br>
+  <hr>
+  <div class="flex justify-center gap-2 mt-4">
+    <button
+      class="flex-none rounded-md bg-red-600 px-4 py-2.5 text-xs font-semibold text-white"
+      (click)="deleteCycle()">Supprimer</button>
+    <button
+      class="flex-none rounded-md bg-gray-900 px-4 py-2.5 text-xs font-semibold text-primary-foreground"
+      (click)="closeModalDeleteCycle()">Annuler</button>
+  </div>
+
+</app-modal>

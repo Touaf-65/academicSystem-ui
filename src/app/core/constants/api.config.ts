@@ -8,7 +8,19 @@ export const API_CONFIG = {
       // LOGOUT: '/auth/logout',
     },
     DEPARTMENT: {
-
+      BASE: '/departments',
+    },
+    PROGRAM: {
+      BASE: '/programs',
+    },
+    CYCLE: {
+      BASE: '/cycles',
+    },
+    LEVEL: {
+      BASE: '/academic-levels',
+    },
+    CLASS: {
+      BASE: '/classrooms',
     },
   },
 };
