@@ -1,625 +1,421 @@
+<app-notifications></app-notifications>
+
 <div class="container mx-auto px-4 py-6 space-y-8">
+  <div class="flex flex-col col-span-3 rounded-lg bg-background p-4 border border-border/50 shadow-lg hover:shadow-xl transition-shadow duration-300">
 
-  <div class="flex flex-col  col-span-3 rounded-lg bg-background p-4 border border-border/50 shadow-lg hover:shadow-xl transition-shadow duration-300">
-
-    <!-- Container principal -->
     <!-- Header -->
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-
-      <!-- Titre -->
       <div>
-        <h2 class="text-xl font-semibold text-foreground">
-          Cours
-        </h2>
-
-        <p class="text-sm text-muted-foreground mt-1">
-          Gestion des cours
-        </p>
+        <h2 class="text-xl font-semibold text-foreground">Cours</h2>
+        <p class="text-sm text-muted-foreground mt-1">Gestion des cours</p>
       </div>
-
-      <!-- Bouton ajout -->
       <button
-        class="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow hover:opacity-90 transition-all duration-200">
-
+        class="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow hover:opacity-90 transition-all duration-200"
+        (click)="openModalCreate()">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M12 4v16m8-8H4">
-          </path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
         </svg>
-
         Ajouter un cours
       </button>
     </div>
 
-    <!-- Select Container -->
-      <div class="grid grid-cols-1 md:grid-cols-3 flex flex-col md:flex-row md:items-center md:justify-between gap-5 mb-6">
+    <!-- Filtres -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
 
-        <div class="flex items-center gap-3">
-
-          <!-- Label -->
-          <p class="text-sm font-medium text-foreground whitespace-nowrap">
-            Département :
-          </p>
-
-          <!-- Select Wrapper -->
-          <div class="relative w-72">
-
-            <!-- Select -->
-            <select
-              id="department"
-              class="w-full appearance-none rounded-lg border border-border bg-background px-4 py-2.5 pr-10 text-sm text-foreground shadow-sm outline-none transition-all duration-200 hover:border-primary/40 focus:border-primary focus:ring-2 focus:ring-primary/20">
-
-              <option value="">
-                Sélectionner un département
-              </option>
-
-              <option value="a">
-                Bâtiment A
-              </option>
-
-              <option value="b">
-                Bâtiment B
-              </option>
-
-              <option value="c">
-                Bâtiment C
-              </option>
-
-            </select>
-
-            <!-- Icon -->
-            <div
-              class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground">
-
-              <svg
-                class="h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24">
-
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="m19 9-7 7-7-7">
-                </path>
-              </svg>
-            </div>
-
+      <!-- Filtre Département -->
+      <div class="flex items-center gap-3">
+        <p class="text-sm font-medium text-foreground whitespace-nowrap">Département :</p>
+        <div class="relative flex-1">
+          <select
+            class="w-full appearance-none rounded-lg border border-border bg-background px-4 py-2.5 pr-10 text-sm text-foreground shadow-sm outline-none transition-all hover:border-primary/40 focus:border-primary focus:ring-2 focus:ring-primary/20"
+            [(ngModel)]="filterDepartmentId"
+            (ngModelChange)="onFilterDeptChange()">
+            <option [ngValue]="null">Tous</option>
+            <option *ngFor="let d of departments" [ngValue]="d.id">{{ d.nom }}</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"></path></svg>
           </div>
-
-        </div>
-
-        <div class="flex items-center gap-3">
-
-          <p class="text-sm font-medium text-foreground whitespace-nowrap">
-            Niveau :
-          </p>
-
-          <div class="relative w-72">
-
-            <!-- Select -->
-            <select
-              id="department"
-              class="w-full appearance-none rounded-lg border border-border bg-background px-4 py-2.5 pr-10 text-sm text-foreground shadow-sm outline-none transition-all duration-200 hover:border-primary/40 focus:border-primary focus:ring-2 focus:ring-primary/20">
-
-              <option value="">
-                Sélectionner un bâtiment
-              </option>
-
-              <option value="a">
-                Bâtiment A
-              </option>
-
-              <option value="b">
-                Bâtiment B
-              </option>
-
-              <option value="c">
-                Bâtiment C
-              </option>
-
-            </select>
-
-            <!-- Icon -->
-            <div
-              class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground">
-
-              <svg
-                class="h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24">
-
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="m19 9-7 7-7-7">
-                </path>
-              </svg>
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="flex items-center gap-3">
-
-          <!-- Label -->
-          <p class="text-sm font-medium text-foreground whitespace-nowrap">
-            Type :
-          </p>
-
-          <!-- Select Wrapper -->
-          <div class="relative w-72">
-
-            <!-- Select -->
-            <select
-              id="department"
-              class="w-full appearance-none rounded-lg border border-border bg-background px-4 py-2.5 pr-10 text-sm text-foreground shadow-sm outline-none transition-all duration-200 hover:border-primary/40 focus:border-primary focus:ring-2 focus:ring-primary/20">
-
-              <option value="">
-                Sélectionner un bâtiment
-              </option>
-
-              <option value="a">
-                Bâtiment A
-              </option>
-
-              <option value="b">
-                Bâtiment B
-              </option>
-
-              <option value="c">
-                Bâtiment C
-              </option>
-
-            </select>
-
-            <!-- Icon -->
-            <div
-              class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground">
-
-              <svg
-                class="h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24">
-
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="m19 9-7 7-7-7">
-                </path>
-              </svg>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <!-- Barre de recherche -->
-      <div class="mb-6 col-span-3">
-        <div class="relative w-full">
-
-          <!-- Icon -->
-          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <svg class="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="m21 21-4.35-4.35M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z">
-              </path>
-            </svg>
-          </div>
-
-          <!-- Input -->
-          <input
-            type="text"
-            placeholder="Rechercher une salle..."
-            class="w-full rounded-lg border border-border bg-background px-10 py-2.5 text-sm text-foreground outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/20">
         </div>
       </div>
+
+      <!-- Filtre Niveau -->
+      <div class="flex items-center gap-3">
+        <p class="text-sm font-medium text-foreground whitespace-nowrap">Niveau :</p>
+        <div class="relative flex-1">
+          <select
+            class="w-full appearance-none rounded-lg border border-border bg-background px-4 py-2.5 pr-10 text-sm text-foreground shadow-sm outline-none transition-all hover:border-primary/40 focus:border-primary focus:ring-2 focus:ring-primary/20"
+            [(ngModel)]="filterLevelId"
+            (ngModelChange)="onFilterLevelChange()">
+            <option [ngValue]="null">Tous</option>
+            <option *ngFor="let l of levels" [ngValue]="l.id">{{ l.nom }}</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"></path></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recherche -->
+      <div class="relative flex-1">
+        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+          <svg class="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-4.35-4.35M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z"></path>
+          </svg>
+        </div>
+        <input type="text" placeholder="Rechercher un cours..."
+               class="w-full rounded-lg border border-border bg-background px-10 py-2.5 text-sm text-foreground outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/20"
+               [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()">
+      </div>
+    </div>
 
     <!-- Table -->
     <div class="overflow-x-auto rounded-xl border border-border/50">
-
       <table class="w-full text-sm text-left text-foreground">
-
-        <!-- Header -->
         <thead class="bg-background border-b border-border/50 text-xs uppercase text-muted-foreground">
         <tr>
-          <th class="px-6 py-4 font-semibold">Nom du programme</th>
+          <th class="px-6 py-4 font-semibold">Nom du cours</th>
           <th class="px-6 py-4 font-semibold">Code</th>
-          <th class="px-6 py-4 font-semibold text-center">Cycle</th>
+          <th class="px-6 py-4 font-semibold text-center">Volume horaire</th>
+          <th class="px-6 py-4 font-semibold">Département</th>
+          <th class="px-6 py-4 font-semibold text-center">Enseignants</th>
           <th class="px-6 py-4 font-semibold text-center">Actions</th>
         </tr>
         </thead>
-
-        <!-- Body -->
         <tbody>
+        <tr *ngFor="let c of filteredCourses; let i = index"
+            [ngClass]="{'bg-background': i % 2 === 1}"
+            class="border-b border-border/40 hover:bg-muted/40 transition-colors duration-200 cursor-pointer">
 
-        <!-- Row 1 -->
-        <tr class="border-b border-border/40 hover:bg-muted/40 transition-colors duration-200">
-
-          <td class="px-6 py-4 font-medium">
-            Faculté des Sciences et Technologies
-          </td>
+          <td class="px-6 py-4 font-medium">{{ c.name }}</td>
 
           <td class="px-6 py-4">
-            <span
-              class="inline-flex items-center rounded-md bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
-              FST
-            </span>
+              <span class="inline-flex items-center rounded-md bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
+                {{ c.code }}
+              </span>
           </td>
 
           <td class="px-6 py-4 text-center">
-            <span
-              class="inline-flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 px-3 py-1 text-xs font-semibold text-green-700 dark:text-green-300">
-              Licence, Master
-            </span>
+              <span class="inline-flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 px-3 py-1 text-xs font-semibold text-blue-700 dark:text-blue-300">
+                {{ c.volumeHoraire }}h
+              </span>
           </td>
 
-          <!-- Actions -->
-          <td class="px-6 py-4">
-            <div class="flex items-center justify-center gap-3">
-
-              <!-- Voir -->
-              <button class="text-primary hover:text-primary/70 transition-colors">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z">
-                  </path>
-                </svg>
-              </button>
-
-              <!-- Edit -->
-              <button class="text-amber-500 hover:text-amber-600 transition-colors">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5Z">
-                  </path>
-                </svg>
-              </button>
-
-              <!-- Delete -->
-              <button class="text-red-500 hover:text-red-600 transition-colors">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 7h12">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 7V4h6v3">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M10 11v6">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M14 11v6">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 7l1 13h12l1-13">
-                  </path>
-                </svg>
-              </button>
-
-            </div>
-          </td>
-        </tr>
-
-        <!-- Row 2 -->
-        <tr class="border-b border-border/40 hover:bg-muted/40 transition-colors duration-200 bg-muted/10">
-
-          <td class="px-6 py-4 font-medium">
-            Faculté des Sciences Économiques
-          </td>
-
-          <td class="px-6 py-4">
-            <span
-              class="inline-flex items-center rounded-md bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
-              FSE
-            </span>
-          </td>
+          <td class="px-6 py-4 text-muted-foreground">{{ getDepartmentName(c.departmentId) }}</td>
 
           <td class="px-6 py-4 text-center">
-            <span
-              class="inline-flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 px-3 py-1 text-xs font-semibold text-green-700 dark:text-green-300">
-              Licence
-            </span>
-          </td>
-          <td class="px-6 py-4">
-            <div class="flex items-center justify-center gap-3">
-
-              <button class="text-primary hover:text-primary/70 transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z">
-                  </path>
-
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z">
-                  </path>
-                </svg>
-              </button>
-
-              <button class="text-amber-500 hover:text-amber-600 transition-colors">
-                ✏️
-              </button>
-
-              <button class="text-red-500 hover:text-red-600 transition-colors">
-                🗑️
-              </button>
-
-            </div>
-          </td>
-        </tr>
-
-        <!-- Row 1 -->
-        <tr class="border-b border-border/40 hover:bg-muted/40 transition-colors duration-200">
-
-          <td class="px-6 py-4 font-medium">
-            Faculté des Sciences et Technologies
-          </td>
-
-          <td class="px-6 py-4">
-            <span
-              class="inline-flex items-center rounded-md bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
-              FST
-            </span>
-          </td>
-
-          <td class="px-6 py-4 text-center">
-            <span
-              class="inline-flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 px-3 py-1 text-xs font-semibold text-green-700 dark:text-green-300">
-              Licence, Master, Doctorat
-            </span>
-          </td>
-
-          <!-- Actions -->
-          <td class="px-6 py-4">
-            <div class="flex items-center justify-center gap-3">
-
-              <!-- Voir -->
-              <button class="text-primary hover:text-primary/70 transition-colors">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z">
-                  </path>
-                </svg>
-              </button>
-
-              <!-- Edit -->
-              <button class="text-amber-500 hover:text-amber-600 transition-colors">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5Z">
-                  </path>
-                </svg>
-              </button>
-
-              <!-- Delete -->
-              <button class="text-red-500 hover:text-red-600 transition-colors">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 7h12">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 7V4h6v3">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M10 11v6">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M14 11v6">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 7l1 13h12l1-13">
-                  </path>
-                </svg>
-              </button>
-
-            </div>
-          </td>
-        </tr>
-
-        <!-- Row 2 -->
-        <tr class="border-b border-border/40 hover:bg-muted/40 transition-colors duration-200 bg-muted/10">
-
-          <td class="px-6 py-4 font-medium">
-            Faculté des Sciences Économiques
-          </td>
-
-          <td class="px-6 py-4">
-            <span
-              class="inline-flex items-center rounded-md bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
-              FSE
-            </span>
-          </td>
-
-          <td class="px-6 py-4 text-center">
-            <span
-              class="inline-flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 px-3 py-1 text-xs font-semibold text-green-700 dark:text-green-300">
-              Doctorat
-            </span>
+              <span class="inline-flex items-center justify-center rounded-full bg-purple-100 dark:bg-purple-900/30 px-3 py-1 text-xs font-semibold text-purple-700 dark:text-purple-300">
+                {{ c.teacherIds.length }}
+              </span>
           </td>
 
           <td class="px-6 py-4">
             <div class="flex items-center justify-center gap-3">
-
-              <button class="text-primary hover:text-primary/70 transition-colors">
+              <button class="text-primary hover:text-primary/70 transition-colors" (click)="openModalView(c)">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z">
-                  </path>
-
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z">
-                  </path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z"></path>
                 </svg>
               </button>
-
-              <button class="text-amber-500 hover:text-amber-600 transition-colors">
-                ✏️
+              <button class="text-amber-500 hover:text-amber-600 transition-colors" (click)="openModalEdit(c)">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5Z"></path>
+                </svg>
               </button>
-
-              <button class="text-red-500 hover:text-red-600 transition-colors">
-                🗑️
+              <button class="text-red-500 hover:text-red-600 transition-colors" (click)="openModalDelete(c)">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 7h12"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7V4h6v3"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11v6"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 11v6"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7l1 13h12l1-13"></path>
+                </svg>
               </button>
-
             </div>
           </td>
         </tr>
-
+        <tr *ngIf="filteredCourses.length === 0">
+          <td colspan="6" class="px-6 py-10 text-center text-sm text-muted-foreground">Aucun cours trouvé.</td>
+        </tr>
         </tbody>
       </table>
     </div>
 
     <!-- Footer -->
     <div class="mt-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-
-      <!-- Results -->
       <p class="text-sm text-muted-foreground">
-        Affichage de
-        <span class="font-medium text-foreground">1</span>
-        à
-        <span class="font-medium text-foreground">2</span>
-        sur
-        <span class="font-medium text-foreground">6</span>
-        résultats
+        Affichage de <span class="font-medium text-foreground">{{ filteredCourses.length }}</span> résultat(s)
       </p>
-
-      <!-- Pagination -->
       <div class="flex items-center gap-2">
-
-        <!-- Previous -->
-        <button
-          class="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground hover:bg-muted transition-colors">
-
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m15 19-7-7 7-7">
-            </path>
-          </svg>
+        <button class="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground hover:bg-muted transition-colors">
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"></path></svg>
         </button>
-
-        <!-- Active page -->
-        <button
-          class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-medium shadow">
-          1
+        <button class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-medium shadow">1</button>
+        <button class="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground hover:bg-muted transition-colors">
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"></path></svg>
         </button>
+      </div>
+    </div>
+  </div>
+</div>
 
-        <!-- Next -->
-        <button
-          class="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground hover:bg-muted transition-colors">
+<!-- ═══════════════════════════════════════
+     Modal : Créer
+═══════════════════════════════════════ -->
+<app-modal [isOpen]="modalCreateOpen" title="Ajouter un cours" [size]="'lg'" (close)="closeModalCreate()">
 
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m9 5 7 7-7 7">
-            </path>
-          </svg>
-        </button>
+  <div class="flex flex-col md:flex-row gap-4 justify-between mb-4">
+    <div class="form__group">
+      <label for="cName">Nom du cours</label>
+      <input type="text" id="cName" class="form__input" [(ngModel)]="cName">
+    </div>
+    <div class="form__group">
+      <label for="cCode">Code</label>
+      <input type="text" id="cCode" class="form__input" [(ngModel)]="cCode">
+    </div>
+  </div>
 
+  <div class="flex flex-col md:flex-row gap-4 justify-between mb-4">
+    <div class="form__group">
+      <label for="cVolumeHoraire">Volume horaire (h)</label>
+      <input type="number" id="cVolumeHoraire" class="form__input" [(ngModel)]="cVolumeHoraire" min="1">
+    </div>
+    <div class="form__group">
+      <label for="cDepartmentId">Département</label>
+      <select id="cDepartmentId" class="form__input" [(ngModel)]="cDepartmentId">
+        <option [ngValue]="null" disabled>Sélectionner un département</option>
+        <option *ngFor="let d of departments" [ngValue]="d.id">{{ d.nom }}</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Sélection multi-enseignants -->
+  <div class="form__group mb-4">
+    <label class="block text-sm font-medium text-foreground mb-2">
+      Enseignants
+      <span class="text-xs text-muted-foreground ml-1">(optionnel)</span>
+    </label>
+    <div class="rounded-lg border border-border bg-background p-3 max-h-44 overflow-y-auto space-y-1">
+      <label *ngFor="let t of teachers"
+             class="flex items-center gap-3 px-2 py-1.5 rounded-md hover:bg-muted/50 cursor-pointer transition-colors">
+        <input type="checkbox"
+               class="w-4 h-4 rounded border-border accent-primary"
+               [checked]="isCreateTeacherSelected(t.id)"
+               (change)="toggleCreateTeacher(t.id)">
+        <span class="text-sm text-foreground">{{ t.nom }}</span>
+        <span class="text-xs text-muted-foreground ml-auto">{{ t.email }}</span>
+      </label>
+      <p *ngIf="teachers.length === 0" class="text-sm text-muted-foreground px-2 py-1">Aucun enseignant disponible.</p>
+    </div>
+    <!-- Badges -->
+    <div *ngIf="cTeacherIds.length > 0" class="flex flex-wrap gap-1 mt-2">
+      <span *ngFor="let id of cTeacherIds"
+            class="inline-flex items-center rounded-md bg-purple-100 dark:bg-purple-900/30 px-2 py-0.5 text-xs font-semibold text-purple-700 dark:text-purple-300">
+        {{ getTeacherName(id) }}
+      </span>
+    </div>
+  </div>
+
+  <hr>
+  <div class="flex justify-center gap-2 mt-4">
+    <button class="flex-none rounded-md bg-primary px-4 py-2.5 text-xs font-semibold text-primary-foreground" (click)="createCourse()">Créer</button>
+    <button class="flex-none rounded-md bg-gray-900 px-4 py-2.5 text-xs font-semibold text-primary-foreground" (click)="closeModalCreate()">Annuler</button>
+  </div>
+</app-modal>
+
+<!-- ═══════════════════════════════════════
+     Modal : Voir
+═══════════════════════════════════════ -->
+<app-modal [isOpen]="modalViewOpen" [title]="'Cours : ' + (courseToView?.name || '')" [size]="'lg'" (close)="closeModalView()">
+
+  <div class="flex flex-col md:flex-row gap-4 justify-between mb-4">
+    <div class="form__group">
+      <label>Nom</label>
+      <input type="text" class="form__input" [value]="courseToView?.name || ''" readonly>
+    </div>
+    <div class="form__group">
+      <label>Code</label>
+      <input type="text" class="form__input" [value]="courseToView?.code || ''" readonly>
+    </div>
+  </div>
+
+  <div class="flex flex-col md:flex-row gap-4 justify-between mb-4">
+    <div class="form__group">
+      <label>Volume horaire</label>
+      <input type="text" class="form__input" [value]="(courseToView?.volumeHoraire ?? '') + 'h'" readonly>
+    </div>
+    <div class="form__group">
+      <label>Département</label>
+      <input type="text" class="form__input" [value]="getDepartmentName(courseToView?.departmentId!)" readonly>
+    </div>
+  </div>
+
+  <div class="form__group mb-4">
+    <label class="block text-sm font-medium text-foreground mb-2">Enseignants assignés</label>
+    <div class="flex flex-wrap gap-2">
+      <span *ngFor="let t of getAssignedTeachers(courseToView!)"
+            class="inline-flex items-center rounded-md bg-purple-100 dark:bg-purple-900/30 px-2.5 py-1 text-xs font-semibold text-purple-700 dark:text-purple-300">
+        {{ t.nom }}
+      </span>
+      <span *ngIf="(courseToView?.teacherIds?.length ?? 0) === 0" class="text-sm text-muted-foreground">Aucun enseignant</span>
+    </div>
+  </div>
+
+  <hr>
+  <div class="flex justify-center gap-2 mt-4">
+    <button class="flex-none rounded-md bg-gray-900 px-4 py-2.5 text-xs font-semibold text-primary-foreground" (click)="closeModalView()">Fermer</button>
+  </div>
+</app-modal>
+
+<!-- ═══════════════════════════════════════
+     Modal : Modifier (avec tabs Infos / Enseignants)
+═══════════════════════════════════════ -->
+<app-modal [isOpen]="modalEditOpen" [title]="'Modifier : ' + (courseToEdit?.name || '')" [size]="'lg'" (close)="closeModalEdit()">
+
+  <!-- Tabs internes -->
+  <div class="flex gap-1 rounded-lg border border-border/50 bg-muted/30 p-1 mb-5">
+    <button
+      class="flex-1 rounded-md px-3 py-2 text-sm font-medium transition-all duration-200"
+      [ngClass]="{
+        'bg-background shadow text-foreground': editActiveTab === 'infos',
+        'text-muted-foreground hover:text-foreground': editActiveTab !== 'infos'
+      }"
+      (click)="editActiveTab = 'infos'">
+      Informations
+    </button>
+    <button
+      class="flex-1 rounded-md px-3 py-2 text-sm font-medium transition-all duration-200"
+      [ngClass]="{
+        'bg-background shadow text-foreground': editActiveTab === 'enseignants',
+        'text-muted-foreground hover:text-foreground': editActiveTab !== 'enseignants'
+      }"
+      (click)="editActiveTab = 'enseignants'">
+      Enseignants
+      <span class="ml-1 inline-flex items-center justify-center w-5 h-5 rounded-full bg-primary/10 text-primary text-xs font-bold">
+        {{ courseToEdit?.teacherIds?.length ?? 0 }}
+      </span>
+    </button>
+  </div>
+
+  <!-- Tab : Informations -->
+  <div *ngIf="editActiveTab === 'infos'">
+    <div class="flex flex-col md:flex-row gap-4 justify-between mb-4">
+      <div class="form__group">
+        <label for="editName">Nom du cours</label>
+        <input type="text" id="editName" class="form__input" [(ngModel)]="editName">
+      </div>
+      <div class="form__group">
+        <label for="editCode">Code</label>
+        <input type="text" id="editCode" class="form__input" [(ngModel)]="editCode">
+      </div>
+    </div>
+    <div class="flex flex-col md:flex-row gap-4 justify-between mb-4">
+      <div class="form__group">
+        <label for="editVolumeHoraire">Volume horaire (h)</label>
+        <input type="number" id="editVolumeHoraire" class="form__input" [(ngModel)]="editVolumeHoraire" min="1">
+      </div>
+      <div class="form__group">
+        <label for="editDepartmentId">Département</label>
+        <select id="editDepartmentId" class="form__input" [(ngModel)]="editDepartmentId">
+          <option [ngValue]="null" disabled>Sélectionner un département</option>
+          <option *ngFor="let d of departments" [ngValue]="d.id">{{ d.nom }}</option>
+        </select>
+      </div>
+    </div>
+    <hr>
+    <div class="flex justify-center gap-2 mt-4">
+      <button class="flex-none rounded-md bg-primary px-4 py-2.5 text-xs font-semibold text-primary-foreground" (click)="editCourse()">Enregistrer</button>
+      <button class="flex-none rounded-md bg-gray-900 px-4 py-2.5 text-xs font-semibold text-primary-foreground" (click)="closeModalEdit()">Annuler</button>
+    </div>
+  </div>
+
+  <!-- Tab : Enseignants (assignation / désassignation) -->
+  <div *ngIf="editActiveTab === 'enseignants'">
+
+    <!-- Enseignants assignés -->
+    <div class="mb-5">
+      <p class="text-sm font-semibold text-foreground mb-2">Enseignants assignés</p>
+      <div class="rounded-lg border border-border bg-background overflow-hidden">
+        <div *ngFor="let t of getAssignedTeachers(courseToEdit!); let i = index"
+             class="flex items-center justify-between px-4 py-2.5 transition-colors"
+             [ngClass]="{'bg-muted/20': i % 2 === 1}">
+          <div>
+            <p class="text-sm font-medium text-foreground">{{ t.nom }}</p>
+            <p class="text-xs text-muted-foreground">{{ t.email }}</p>
+          </div>
+          <button
+            class="inline-flex items-center gap-1 rounded-md bg-red-100 dark:bg-red-900/30 px-2.5 py-1 text-xs font-semibold text-red-600 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"
+            (click)="unassignTeacher(t.id)">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+            Retirer
+          </button>
+        </div>
+        <p *ngIf="getAssignedTeachers(courseToEdit!).length === 0"
+           class="px-4 py-3 text-sm text-muted-foreground text-center">
+          Aucun enseignant assigné.
+        </p>
       </div>
     </div>
 
+    <!-- Assigner un nouvel enseignant -->
+    <div>
+      <p class="text-sm font-semibold text-foreground mb-2">Assigner un enseignant</p>
+      <div class="flex gap-3">
+        <div class="relative flex-1">
+          <select class="w-full appearance-none rounded-lg border border-border bg-background px-4 py-2.5 pr-10 text-sm text-foreground shadow-sm outline-none transition-all hover:border-primary/40 focus:border-primary focus:ring-2 focus:ring-primary/20"
+                  [(ngModel)]="assigningTeacherId">
+            <option [ngValue]="null" disabled>Sélectionner un enseignant</option>
+            <option *ngFor="let t of getUnassignedTeachers(courseToEdit!)" [ngValue]="t.id">
+              {{ t.nom }} — {{ t.email }}
+            </option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"></path></svg>
+          </div>
+        </div>
+        <button
+          class="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-xs font-semibold text-primary-foreground shadow hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          [disabled]="!assigningTeacherId || assignLoading"
+          (click)="assignTeacher()">
+          <svg *ngIf="!assignLoading" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+          </svg>
+          <svg *ngIf="assignLoading" class="w-3.5 h-3.5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+          </svg>
+          Assigner
+        </button>
+      </div>
+      <p *ngIf="getUnassignedTeachers(courseToEdit!).length === 0"
+         class="text-xs text-muted-foreground mt-2">
+        Tous les enseignants sont déjà assignés à ce cours.
+      </p>
+    </div>
+
+    <hr class="mt-5">
+    <div class="flex justify-center gap-2 mt-4">
+      <button class="flex-none rounded-md bg-gray-900 px-4 py-2.5 text-xs font-semibold text-primary-foreground" (click)="closeModalEdit()">Fermer</button>
+    </div>
   </div>
 
-</div>
+</app-modal>
+
+<!-- ═══════════════════════════════════════
+     Modal : Supprimer
+═══════════════════════════════════════ -->
+<app-modal [isOpen]="modalDeleteOpen" title="Supprimer cours" [size]="'md'" (close)="closeModalDelete()">
+  <p class="text-lg text-justify text-red-700 dark:text-red-400">
+    Êtes-vous sûr de vouloir <span class="font-semibold text-red-600 dark:text-red-300">supprimer le cours</span>
+    &nbsp;<span class="font-bold text-slate-800 dark:text-white">{{ courseToDelete?.name }}</span>&nbsp;?
+  </p>
+  <br>
+  <p class="text-xs text-gray-500 dark:text-zinc-300 mt-2">Cette action supprimera définitivement le cours du système.</p>
+  <br><hr>
+  <div class="flex justify-center gap-2 mt-4">
+    <button class="flex-none rounded-md bg-red-600 px-4 py-2.5 text-xs font-semibold text-white" (click)="deleteCourse()">Supprimer</button>
+    <button class="flex-none rounded-md bg-gray-900 px-4 py-2.5 text-xs font-semibold text-primary-foreground" (click)="closeModalDelete()">Annuler</button>
+  </div>
+</app-modal>

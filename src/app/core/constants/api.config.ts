@@ -29,7 +29,13 @@ export const API_CONFIG = {
       BASE: '/floors',
     },
     ROOM: {
-      BASE: '/rooms'
-    }
+      BASE: '/rooms',
+    },
+    TEACHER: {
+      BASE: '/teachers',
+    },
+    COURSE: {
+      BASE: '/courses',
+    },
   },
 };
