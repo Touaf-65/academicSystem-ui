@@ -1,28 +1,18 @@
+<app-notifications></app-notifications>
+
 <div class="container mx-auto px-4 py-6 space-y-8">
 
   <!-- Header -->
-  <div
-    class="flex items-center justify-between mb-6 rounded-xl bg-background p-4 border border-border/50 shadow-sm">
-
+  <div class="flex items-center justify-between mb-6 rounded-xl bg-background p-4 border border-border/50 shadow-sm">
     <div>
-      <h1 class="text-2xl font-semibold text-foreground">
-        Bâtiments & Etages
-      </h1>
-
-      <p class="text-sm text-muted-foreground mt-1">
-        Gestion des Bâtiments et Etages
-      </p>
+      <h1 class="text-2xl font-semibold text-foreground">Bâtiments & Étages</h1>
+      <p class="text-sm text-muted-foreground mt-1">Gestion des bâtiments et étages</p>
     </div>
-
   </div>
 
-  <!-- Tabs Centered -->
+  <!-- Tabs -->
   <div class="flex justify-center mb-6">
-
-    <div
-      class="inline-flex items-center gap-2 rounded-xl border border-border/50 bg-background p-2 shadow-sm">
-
-      <!-- Tab Bâtiments -->
+    <div class="inline-flex items-center gap-2 rounded-xl border border-border/50 bg-background p-2 shadow-sm">
       <button
         (click)="setActiveTab('building')"
         class="px-5 py-2.5 text-sm font-medium rounded-lg transition-all duration-200"
@@ -30,11 +20,8 @@
           'bg-primary text-primary-foreground shadow': activeTab === 'building',
           'text-muted-foreground hover:bg-muted': activeTab !== 'building'
         }">
-
         Bâtiments
       </button>
-
-      <!-- Tab Etages -->
       <button
         (click)="setActiveTab('floor')"
         class="px-5 py-2.5 text-sm font-medium rounded-lg transition-all duration-200"
@@ -42,87 +29,50 @@
           'bg-primary text-primary-foreground shadow': activeTab === 'floor',
           'text-muted-foreground hover:bg-muted': activeTab !== 'floor'
         }">
-
-        Etages
+        Étages
       </button>
-
     </div>
   </div>
 
-  <!-- ========================= -->
-  <!-- Vue Bâtiments -->
-  <!-- ========================= -->
-
-  <div
-    *ngIf="activeTab === 'building'"
-    class="flex flex-col rounded-xl bg-background p-6 border border-border/50 shadow-lg hover:shadow-xl transition-shadow duration-300">
+  <!-- ════════════════════════════════════
+       Tab : Bâtiments
+  ════════════════════════════════════ -->
+  <div *ngIf="activeTab === 'building'"
+       class="flex flex-col rounded-xl bg-background p-6 border border-border/50 shadow-lg hover:shadow-xl transition-shadow duration-300">
 
     <!-- Header -->
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-
-      <!-- Titre -->
       <div>
-        <h2 class="text-xl font-semibold text-foreground">
-          Bâtiments
-        </h2>
-
-        <p class="text-sm text-muted-foreground mt-1">
-          Gestion des Bâtiments
-        </p>
+        <h2 class="text-xl font-semibold text-foreground">Bâtiments</h2>
+        <p class="text-sm text-muted-foreground mt-1">Gestion des bâtiments</p>
       </div>
-
-      <!-- Bouton ajout -->
       <button
-        class="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow hover:opacity-90 transition-all duration-200">
-
+        class="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow hover:opacity-90 transition-all duration-200"
+        (click)="openModalCreateBuilding()">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M12 4v16m8-8H4">
-          </path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
         </svg>
-
         Ajouter un bâtiment
       </button>
     </div>
 
-    <!-- Select Container -->
-    <div class="grid grid-cols-1 md:grid-cols-5 flex flex-col md:flex-row md:items-center md:justify-between gap-5 mb-6">
-
-      <!-- Barre de recherche -->
-      <div class="mb-6 col-span-5">
-        <div class="relative w-full">
-
-          <!-- Icon -->
-          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <svg class="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="m21 21-4.35-4.35M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z">
-              </path>
-            </svg>
-          </div>
-
-          <!-- Input -->
-          <input
-            type="text"
-            placeholder="Rechercher un programme..."
-            class="w-full rounded-lg border border-border bg-background px-10 py-2.5 text-sm text-foreground outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/20">
+    <!-- Recherche -->
+    <div class="mb-6">
+      <div class="relative w-full">
+        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+          <svg class="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="m21 21-4.35-4.35M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z"></path>
+          </svg>
         </div>
+        <input type="text" placeholder="Rechercher un bâtiment..."
+               class="w-full rounded-lg border border-border bg-background px-10 py-2.5 text-sm text-foreground outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/20">
       </div>
-
     </div>
 
     <!-- Table -->
     <div class="overflow-x-auto rounded-xl border border-border/50">
-
       <table class="w-full text-sm text-left text-foreground">
-
-        <!-- Header -->
         <thead class="bg-background border-b border-border/50 text-xs uppercase text-muted-foreground">
         <tr>
           <th class="px-6 py-4 font-semibold">Nom du bâtiment</th>
@@ -131,939 +81,379 @@
           <th class="px-6 py-4 font-semibold text-center">Actions</th>
         </tr>
         </thead>
-
-        <!-- Body -->
         <tbody>
+        <tr *ngFor="let b of filteredBuildings; let i = index"
+            [ngClass]="{'bg-background': i % 2 === 1}"
+            class="border-b border-border/40 hover:bg-muted/40 transition-colors duration-200 cursor-pointer">
 
-        <!-- Row 1 -->
-        <tr class="border-b border-border/40 hover:bg-muted/40 transition-colors duration-200">
+          <td class="px-6 py-4 font-medium">{{ b.nom }}</td>
 
-          <td class="px-6 py-4 font-medium">
-            Faculté des Sciences et Technologies
-          </td>
-
-          <td class="px-6 py-4 text-muted-foreground">
-            Regroupe les filières scientifiques et technologiques
+          <td class="px-6 py-4">
+              <span class="inline-flex items-center rounded-md bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
+                {{ b.description }}
+              </span>
           </td>
 
           <td class="px-6 py-4 text-center">
-            <span
-              class="inline-flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 px-3 py-1 text-xs font-semibold text-green-700 dark:text-green-300">
-              365
-            </span>
+              <span class="inline-flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 px-3 py-1 text-xs font-semibold text-green-700 dark:text-green-300">
+                {{ b.capaciteTotale }}
+              </span>
           </td>
 
-          <!-- Actions -->
           <td class="px-6 py-4">
             <div class="flex items-center justify-center gap-3">
-
-              <!-- Voir -->
-              <button class="text-primary hover:text-primary/70 transition-colors">
-
+              <button class="text-primary hover:text-primary/70 transition-colors" (click)="openModalViewBuilding(b)">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z">
-                  </path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z"></path>
                 </svg>
               </button>
-
-              <!-- Edit -->
-              <button class="text-amber-500 hover:text-amber-600 transition-colors">
-
+              <button class="text-amber-500 hover:text-amber-600 transition-colors" (click)="openEditBuilding(b)">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5Z">
-                  </path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5Z"></path>
                 </svg>
               </button>
-
-              <!-- Delete -->
-              <button class="text-red-500 hover:text-red-600 transition-colors">
-
+              <button class="text-red-500 hover:text-red-600 transition-colors" (click)="openDeleteBuilding(b)">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 7h12">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 7V4h6v3">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M10 11v6">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M14 11v6">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 7l1 13h12l1-13">
-                  </path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 7h12"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7V4h6v3"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11v6"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 11v6"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7l1 13h12l1-13"></path>
                 </svg>
               </button>
-
             </div>
           </td>
         </tr>
-
-        <!-- Row 2 -->
-        <tr class="border-b border-border/40 hover:bg-muted/40 transition-colors duration-200 bg-muted/10">
-
-          <td class="px-6 py-4 font-medium">
-            Faculté des Sciences Économiques
-          </td>
-
-          <td class="px-6 py-4 text-muted-foreground">
-            Regroupe les filières scientifiques et technologiques
-          </td>
-
-          <td class="px-6 py-4 text-center">
-            <span
-              class="inline-flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 px-3 py-1 text-xs font-semibold text-green-700 dark:text-green-300">
-              240
-            </span>
-          </td>
-          <td class="px-6 py-4">
-            <div class="flex items-center justify-center gap-3">
-
-              <button class="text-primary hover:text-primary/70 transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z">
-                  </path>
-
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z">
-                  </path>
-                </svg>
-              </button>
-
-              <button class="text-amber-500 hover:text-amber-600 transition-colors">
-                ✏️
-              </button>
-
-              <button class="text-red-500 hover:text-red-600 transition-colors">
-                🗑️
-              </button>
-
-            </div>
-          </td>
-        </tr>
-
-        <!-- Row 3 -->
-        <tr class="border-b border-border/40 hover:bg-muted/40 transition-colors duration-200">
-
-          <td class="px-6 py-4 font-medium">
-            Faculté des Sciences et Technologies
-          </td>
-
-          <td class="px-6 py-4 text-muted-foreground">
-            Regroupe les filières scientifiques et technologiques
-          </td>
-
-          <td class="px-6 py-4 text-center">
-            <span
-              class="inline-flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 px-3 py-1 text-xs font-semibold text-green-700 dark:text-green-300">
-              175
-            </span>
-          </td>
-
-          <!-- Actions -->
-          <td class="px-6 py-4">
-            <div class="flex items-center justify-center gap-3">
-
-              <!-- Voir -->
-              <button class="text-primary hover:text-primary/70 transition-colors">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z">
-                  </path>
-                </svg>
-              </button>
-
-              <!-- Edit -->
-              <button class="text-amber-500 hover:text-amber-600 transition-colors">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5Z">
-                  </path>
-                </svg>
-              </button>
-
-              <!-- Delete -->
-              <button class="text-red-500 hover:text-red-600 transition-colors">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 7h12">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 7V4h6v3">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M10 11v6">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M14 11v6">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 7l1 13h12l1-13">
-                  </path>
-                </svg>
-              </button>
-
-            </div>
-          </td>
-        </tr>
-
         </tbody>
       </table>
     </div>
 
     <!-- Footer -->
     <div class="mt-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-
-      <!-- Results -->
       <p class="text-sm text-muted-foreground">
-        Affichage de
-        <span class="font-medium text-foreground">1</span>
-        à
-        <span class="font-medium text-foreground">2</span>
-        sur
-        <span class="font-medium text-foreground">6</span>
-        résultats
+        Affichage de <span class="font-medium text-foreground">{{ filteredBuildings.length }}</span> résultat(s)
       </p>
-
-      <!-- Pagination -->
       <div class="flex items-center gap-2">
-
-        <!-- Previous -->
-        <button
-          class="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground hover:bg-muted transition-colors">
-
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m15 19-7-7 7-7">
-            </path>
-          </svg>
+        <button class="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground hover:bg-muted transition-colors">
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"></path></svg>
         </button>
-
-        <!-- Active page -->
-        <button
-          class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-medium shadow">
-          1
+        <button class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-medium shadow">1</button>
+        <button class="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground hover:bg-muted transition-colors">
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"></path></svg>
         </button>
-
-        <!-- Next -->
-        <button
-          class="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground hover:bg-muted transition-colors">
-
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m9 5 7 7-7 7">
-            </path>
-          </svg>
-        </button>
-
       </div>
     </div>
-
   </div>
 
-  <!-- ========================= -->
-  <!-- Vue Etages -->
-  <!-- ========================= -->
+  <!-- ════════════════════════════════════
+       Tab : Étages
+  ════════════════════════════════════ -->
+  <div *ngIf="activeTab === 'floor'"
+       class="flex flex-col rounded-xl bg-background p-6 border border-border/50 shadow-lg hover:shadow-xl transition-shadow duration-300">
 
-  <div
-    *ngIf="activeTab === 'floor'"
-    class="flex flex-col rounded-xl bg-background p-6 border border-border/50 shadow-lg hover:shadow-xl transition-shadow duration-300">
     <!-- Header -->
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-
-      <!-- Titre -->
       <div>
-        <h2 class="text-xl font-semibold text-foreground">
-          Etages
-        </h2>
-
-        <p class="text-sm text-muted-foreground mt-1">
-          Gestion des étages
-        </p>
+        <h2 class="text-xl font-semibold text-foreground">Étages</h2>
+        <p class="text-sm text-muted-foreground mt-1">Gestion des étages</p>
       </div>
-
-      <!-- Bouton ajout -->
       <button
-        class="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow hover:opacity-90 transition-all duration-200">
-
+        class="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow hover:opacity-90 transition-all duration-200"
+        (click)="openModalCreateFloor()">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M12 4v16m8-8H4">
-          </path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
         </svg>
-
         Ajouter un étage
       </button>
     </div>
 
-    <!-- Select Container -->
-    <div class="grid grid-cols-1 md:grid-cols-4 flex flex-col md:flex-row md:items-center md:justify-between gap-5 mb-6">
-
-      <!-- Select Wrapper -->
-      <div class="mb-6 relative col-span-2 col-start-2 col-end-4">
-
-        <!-- Select -->
-        <select
-          id="department"
-          class="w-full appearance-none rounded-lg border border-border bg-background px-4 py-2.5 pr-10 text-sm text-foreground shadow-sm outline-none transition-all duration-200 hover:border-primary/40 focus:border-primary focus:ring-2 focus:ring-primary/20">
-
-          <option value="">
-            Sélectionner un bâtiment
-          </option>
-
-          <option value="fst">
-            Faculté des Sciences et Technologies
-          </option>
-
-          <option value="fse">
-            Faculté des Sciences Économiques
-          </option>
-
-          <option value="flsh">
-            Faculté des Lettres et Sciences Humaines
-          </option>
-
-          <option value="fm">
-            Faculté de Médecine
-          </option>
-
+    <!-- Filtre bâtiment -->
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-5 mb-6">
+      <div class="relative col-span-2">
+        <select class="w-full appearance-none rounded-lg border border-border bg-background px-4 py-2.5 pr-10 text-sm text-foreground shadow-sm outline-none transition-all duration-200 hover:border-primary/40 focus:border-primary focus:ring-2 focus:ring-primary/20">
+          <option value="">Sélectionner un bâtiment</option>
+          <option *ngFor="let b of buildings" [value]="b.id">{{ b.nom }}</option>
         </select>
-
-        <!-- Icon -->
-        <div
-          class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground">
-
-          <svg
-            class="h-4 w-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m19 9-7 7-7-7">
-            </path>
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground">
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"></path>
           </svg>
         </div>
       </div>
-
-
+      <div class="col-span-3">
+        <div class="relative w-full">
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <svg class="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-4.35-4.35M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z"></path>
+            </svg>
+          </div>
+          <input type="text" placeholder="Rechercher un étage..."
+                 class="w-full rounded-lg border border-border bg-background px-10 py-2.5 text-sm text-foreground outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/20">
+        </div>
+      </div>
     </div>
 
     <!-- Table -->
     <div class="overflow-x-auto rounded-xl border border-border/50">
-
       <table class="w-full text-sm text-left text-foreground">
-
-        <!-- Header -->
         <thead class="bg-background border-b border-border/50 text-xs uppercase text-muted-foreground">
         <tr>
-          <th class="px-6 py-4 font-semibold">Nom du Bâtiment</th>
-          <th class="px-6 py-4 font-semibold text-center">Niveau</th>
+          <th class="px-6 py-4 font-semibold">Bâtiment</th>
+          <th class="px-6 py-4 font-semibold text-center">Numéro d'étage</th>
           <th class="px-6 py-4 font-semibold text-center">Capacité</th>
           <th class="px-6 py-4 font-semibold text-center">Actions</th>
         </tr>
         </thead>
-
-        <!-- Body -->
         <tbody>
-
-        <!-- Row 1 -->
-        <tr class="border-b border-border/40 hover:bg-muted/40 transition-colors duration-200">
+        <tr *ngFor="let f of filteredFloors; let i = index"
+            [ngClass]="{'bg-background': i % 2 === 1}"
+            class="border-b border-border/40 hover:bg-muted/40 transition-colors duration-200 cursor-pointer">
 
           <td class="px-6 py-4 font-medium">
-            Faculté des Sciences et Technologies
+              <span class="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-900/30 px-3 py-1 text-xs font-semibold text-blue-700 dark:text-blue-300">
+                {{ getBuildingName(f.buildingId) }}
+              </span>
           </td>
 
           <td class="px-6 py-4 text-center">
-            <span
-              class="inline-flex items-center rounded-md bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
-              1
-            </span>
+              <span class="inline-flex items-center justify-center rounded-md bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
+                {{ f.numero }}
+              </span>
           </td>
 
           <td class="px-6 py-4 text-center">
-            <span
-              class="inline-flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 px-3 py-1 text-xs font-semibold text-green-700 dark:text-green-300">
-              365
-            </span>
+              <span class="inline-flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 px-3 py-1 text-xs font-semibold text-green-700 dark:text-green-300">
+                {{ f.capacite }}
+              </span>
           </td>
 
-          <!-- Actions -->
           <td class="px-6 py-4">
             <div class="flex items-center justify-center gap-3">
-
-              <!-- Voir -->
-              <button class="text-primary hover:text-primary/70 transition-colors">
-
+              <button class="text-primary hover:text-primary/70 transition-colors" (click)="openModalViewFloor(f)">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z">
-                  </path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z"></path>
                 </svg>
               </button>
-
-              <!-- Edit -->
-              <button class="text-amber-500 hover:text-amber-600 transition-colors">
-
+              <button class="text-amber-500 hover:text-amber-600 transition-colors" (click)="openEditFloor(f)">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5Z">
-                  </path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5Z"></path>
                 </svg>
               </button>
-
-              <!-- Delete -->
-              <button class="text-red-500 hover:text-red-600 transition-colors">
-
+              <button class="text-red-500 hover:text-red-600 transition-colors" (click)="openDeleteFloor(f)">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 7h12">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 7V4h6v3">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M10 11v6">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M14 11v6">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 7l1 13h12l1-13">
-                  </path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 7h12"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7V4h6v3"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11v6"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 11v6"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7l1 13h12l1-13"></path>
                 </svg>
               </button>
-
             </div>
           </td>
         </tr>
-
-        <!-- Row 2 -->
-        <tr class="border-b border-border/40 hover:bg-muted/40 transition-colors duration-200">
-
-          <td class="px-6 py-4 font-medium">
-            Faculté des Sciences et Technologies
-          </td>
-
-          <td class="px-6 py-4 text-center">
-            <span
-              class="inline-flex items-center rounded-md bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
-              1
-            </span>
-          </td>
-
-          <td class="px-6 py-4 text-center">
-            <span
-              class="inline-flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 px-3 py-1 text-xs font-semibold text-green-700 dark:text-green-300">
-              65
-            </span>
-          </td>
-
-          <!-- Actions -->
-          <td class="px-6 py-4">
-            <div class="flex items-center justify-center gap-3">
-
-              <!-- Voir -->
-              <button class="text-primary hover:text-primary/70 transition-colors">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z">
-                  </path>
-                </svg>
-              </button>
-
-              <!-- Edit -->
-              <button class="text-amber-500 hover:text-amber-600 transition-colors">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5Z">
-                  </path>
-                </svg>
-              </button>
-
-              <!-- Delete -->
-              <button class="text-red-500 hover:text-red-600 transition-colors">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 7h12">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 7V4h6v3">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M10 11v6">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M14 11v6">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 7l1 13h12l1-13">
-                  </path>
-                </svg>
-              </button>
-
-            </div>
-          </td>
-        </tr>
-
-        <!-- Row 3 -->
-        <tr class="border-b border-border/40 hover:bg-muted/40 transition-colors duration-200">
-
-          <td class="px-6 py-4 font-medium">
-            Faculté des Sciences et Technologies
-          </td>
-
-          <td class="px-6 py-4 text-center">
-            <span
-              class="inline-flex items-center rounded-md bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
-              1
-            </span>
-          </td>
-
-          <td class="px-6 py-4 text-center">
-            <span
-              class="inline-flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 px-3 py-1 text-xs font-semibold text-green-700 dark:text-green-300">
-              365
-            </span>
-          </td>
-
-          <!-- Actions -->
-          <td class="px-6 py-4">
-            <div class="flex items-center justify-center gap-3">
-
-              <!-- Voir -->
-              <button class="text-primary hover:text-primary/70 transition-colors">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z">
-                  </path>
-                </svg>
-              </button>
-
-              <!-- Edit -->
-              <button class="text-amber-500 hover:text-amber-600 transition-colors">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5Z">
-                  </path>
-                </svg>
-              </button>
-
-              <!-- Delete -->
-              <button class="text-red-500 hover:text-red-600 transition-colors">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 7h12">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 7V4h6v3">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M10 11v6">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M14 11v6">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 7l1 13h12l1-13">
-                  </path>
-                </svg>
-              </button>
-
-            </div>
-          </td>
-        </tr>
-
-        <!-- Row 4 -->
-        <tr class="border-b border-border/40 hover:bg-muted/40 transition-colors duration-200">
-
-          <td class="px-6 py-4 font-medium">
-            Faculté des Sciences et Technologies
-          </td>
-
-          <td class="px-6 py-4 text-center">
-            <span
-              class="inline-flex items-center rounded-md bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
-              1
-            </span>
-          </td>
-
-          <td class="px-6 py-4 text-center">
-            <span
-              class="inline-flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 px-3 py-1 text-xs font-semibold text-green-700 dark:text-green-300">
-              365
-            </span>
-          </td>
-
-          <!-- Actions -->
-          <td class="px-6 py-4">
-            <div class="flex items-center justify-center gap-3">
-
-              <!-- Voir -->
-              <button class="text-primary hover:text-primary/70 transition-colors">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z">
-                  </path>
-                </svg>
-              </button>
-
-              <!-- Edit -->
-              <button class="text-amber-500 hover:text-amber-600 transition-colors">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5Z">
-                  </path>
-                </svg>
-              </button>
-
-              <!-- Delete -->
-              <button class="text-red-500 hover:text-red-600 transition-colors">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 7h12">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 7V4h6v3">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M10 11v6">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M14 11v6">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 7l1 13h12l1-13">
-                  </path>
-                </svg>
-              </button>
-
-            </div>
-          </td>
-        </tr>
-
         </tbody>
       </table>
     </div>
 
     <!-- Footer -->
     <div class="mt-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-
-      <!-- Results -->
       <p class="text-sm text-muted-foreground">
-        Affichage de
-        <span class="font-medium text-foreground">1</span>
-        à
-        <span class="font-medium text-foreground">2</span>
-        sur
-        <span class="font-medium text-foreground">6</span>
-        résultats
+        Affichage de <span class="font-medium text-foreground">{{ filteredFloors.length }}</span> résultat(s)
       </p>
-
-      <!-- Pagination -->
       <div class="flex items-center gap-2">
-
-        <!-- Previous -->
-        <button
-          class="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground hover:bg-muted transition-colors">
-
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m15 19-7-7 7-7">
-            </path>
-          </svg>
+        <button class="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground hover:bg-muted transition-colors">
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"></path></svg>
         </button>
-
-        <!-- Active page -->
-        <button
-          class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-medium shadow">
-          1
+        <button class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-medium shadow">1</button>
+        <button class="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground hover:bg-muted transition-colors">
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"></path></svg>
         </button>
-
-        <!-- Next -->
-        <button
-          class="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground hover:bg-muted transition-colors">
-
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m9 5 7 7-7 7">
-            </path>
-          </svg>
-        </button>
-
       </div>
     </div>
-
   </div>
 
-
 </div>
+
+<!-- ═══════════════════════════════════════════════════════
+     MODALS BÂTIMENTS
+═══════════════════════════════════════════════════════ -->
+
+<!-- Créer bâtiment -->
+<app-modal [isOpen]="modalBuildingCreateOpen" title="Ajouter un bâtiment" [size]="'lg'" (close)="closeModalCreateBuilding()">
+  <div class="flex flex-col md:flex-row gap-4 justify-between mb-4">
+    <div class="form__group">
+      <label for="bDescription">Description</label>
+      <input type="text" id="bDescription" class="form__input" [(ngModel)]="bDescription">
+    </div>
+    <div class="form__group">
+      <label for="bNom">Nom</label>
+      <input type="text" id="bNom" class="form__input" [(ngModel)]="bNom">
+    </div>
+  </div>
+  <div class="form__group mb-4">
+    <label for="bCapaciteTotale">Capacité</label>
+    <input type="number" id="bCapaciteTotale" class="form__input" [(ngModel)]="bCapaciteTotale" min="1">
+  </div>
+  <hr>
+  <div class="flex justify-center gap-2 mt-4">
+    <button class="flex-none rounded-md bg-primary px-4 py-2.5 text-xs font-semibold text-primary-foreground" (click)="createBuilding()">Créer</button>
+    <button class="flex-none rounded-md bg-gray-900 px-4 py-2.5 text-xs font-semibold text-primary-foreground" (click)="closeModalCreateBuilding()">Annuler</button>
+  </div>
+</app-modal>
+
+<!-- Voir bâtiment -->
+<app-modal [isOpen]="modalBuildingViewOpen" [title]="'Bâtiment : ' + (buildingToView?.nom || '')" [size]="'lg'" (close)="closeModalViewBuilding()">
+  <div class="flex flex-col md:flex-row gap-4 justify-between mb-4">
+    <div class="form__group">
+      <label>Description</label>
+      <input type="text" class="form__input" [value]="buildingToView?.description || ''" readonly>
+    </div>
+    <div class="form__group">
+      <label>Nom</label>
+      <input type="text" class="form__input" [value]="buildingToView?.nom || ''" readonly>
+    </div>
+  </div>
+  <div class="form__group mb-4">
+    <label>Capacité</label>
+    <input type="text" class="form__input" [value]="buildingToView?.capaciteTotale ?? ''" readonly>
+  </div>
+  <hr>
+  <div class="flex justify-center gap-2 mt-4">
+    <button class="flex-none rounded-md bg-gray-900 px-4 py-2.5 text-xs font-semibold text-primary-foreground" (click)="closeModalViewBuilding()">Fermer</button>
+  </div>
+</app-modal>
+
+<!-- Modifier bâtiment -->
+<app-modal [isOpen]="modalBuildingEditOpen" [title]="'Modifier : ' + (buildingToEdit?.nom || '')" [size]="'lg'" (close)="closeModalEditBuilding()">
+  <div class="flex flex-col md:flex-row gap-4 justify-between mb-4">
+    <div class="form__group">
+      <label for="editBDescription">Description</label>
+      <input type="text" id="editBDescription" class="form__input" [(ngModel)]="editBDescription">
+    </div>
+    <div class="form__group">
+      <label for="editBNom">Nom</label>
+      <input type="text" id="editBNom" class="form__input" [(ngModel)]="editBNom">
+    </div>
+  </div>
+  <div class="form__group mb-4">
+    <label for="editBCapaciteTotale">Capacité</label>
+    <input type="number" id="editBCapaciteTotale" class="form__input" [(ngModel)]="editBCapaciteTotale" min="1">
+  </div>
+  <hr>
+  <div class="flex justify-center gap-2 mt-4">
+    <button class="flex-none rounded-md bg-primary px-4 py-2.5 text-xs font-semibold text-primary-foreground" (click)="editBuilding()">Enregistrer</button>
+    <button class="flex-none rounded-md bg-gray-900 px-4 py-2.5 text-xs font-semibold text-primary-foreground" (click)="closeModalEditBuilding()">Annuler</button>
+  </div>
+</app-modal>
+
+<!-- Supprimer bâtiment -->
+<app-modal [isOpen]="modalBuildingDeleteOpen" title="Supprimer bâtiment" [size]="'md'" (close)="closeModalDeleteBuilding()">
+  <p class="text-lg text-justify text-red-700 dark:text-red-400">
+    Êtes-vous sûr de vouloir <span class="font-semibold text-red-600 dark:text-red-300">supprimer le bâtiment</span>
+    &nbsp;<span class="font-bold text-slate-800 dark:text-white">{{ buildingToDelete?.nom }}</span>&nbsp;?
+  </p>
+  <br>
+  <p class="text-xs text-gray-500 dark:text-zinc-300 mt-2">Cette action supprimera définitivement le bâtiment du système.</p>
+  <br><hr>
+  <div class="flex justify-center gap-2 mt-4">
+    <button class="flex-none rounded-md bg-red-600 px-4 py-2.5 text-xs font-semibold text-white" (click)="deleteBuilding()">Supprimer</button>
+    <button class="flex-none rounded-md bg-gray-900 px-4 py-2.5 text-xs font-semibold text-primary-foreground" (click)="closeModalDeleteBuilding()">Annuler</button>
+  </div>
+</app-modal>
+
+<!-- ═══════════════════════════════════════════════════════
+     MODALS ÉTAGES
+═══════════════════════════════════════════════════════ -->
+
+<!-- Créer étage -->
+<app-modal [isOpen]="modalFloorCreateOpen" title="Ajouter un étage" [size]="'lg'" (close)="closeModalCreateFloor()">
+  <div class="flex flex-col md:flex-row gap-4 justify-between mb-4">
+    <div class="form__group">
+      <label for="fNumero">Numéro d'étage</label>
+      <input type="number" id="fNumero" class="form__input" [(ngModel)]="fNumero" min="0">
+    </div>
+    <div class="form__group">
+      <label for="fCapacite">Capacité</label>
+      <input type="number" id="fCapacite" class="form__input" [(ngModel)]="fCapacite" min="1">
+    </div>
+  </div>
+  <div class="form__group mb-4">
+    <label for="fBuildingId">Bâtiment</label>
+    <select id="fBuildingId" class="form__input" [(ngModel)]="fBuildingId">
+      <option [ngValue]="null" disabled>Sélectionner un bâtiment</option>
+      <option *ngFor="let b of buildings" [ngValue]="b.id">{{ b.nom }}</option>
+    </select>
+  </div>
+  <hr>
+  <div class="flex justify-center gap-2 mt-4">
+    <button class="flex-none rounded-md bg-primary px-4 py-2.5 text-xs font-semibold text-primary-foreground" (click)="createFloor()">Créer</button>
+    <button class="flex-none rounded-md bg-gray-900 px-4 py-2.5 text-xs font-semibold text-primary-foreground" (click)="closeModalCreateFloor()">Annuler</button>
+  </div>
+</app-modal>
+
+<!-- Voir étage -->
+<app-modal [isOpen]="modalFloorViewOpen" [title]="'Étage n°' + (floorToView?.numero ?? '')" [size]="'lg'" (close)="closeModalViewFloor()">
+  <div class="flex flex-col md:flex-row gap-4 justify-between mb-4">
+    <div class="form__group">
+      <label>Numéro d'étage</label>
+      <input type="text" class="form__input" [value]="floorToView?.numero ?? ''" readonly>
+    </div>
+    <div class="form__group">
+      <label>Capacité</label>
+      <input type="text" class="form__input" [value]="floorToView?.capacite ?? ''" readonly>
+    </div>
+  </div>
+  <div class="form__group mb-4">
+    <label>Bâtiment</label>
+    <input type="text" class="form__input" [value]="getBuildingName(floorToView?.buildingId!)" readonly>
+  </div>
+  <hr>
+  <div class="flex justify-center gap-2 mt-4">
+    <button class="flex-none rounded-md bg-gray-900 px-4 py-2.5 text-xs font-semibold text-primary-foreground" (click)="closeModalViewFloor()">Fermer</button>
+  </div>
+</app-modal>
+
+<!-- Modifier étage -->
+<app-modal [isOpen]="modalFloorEditOpen" [title]="'Modifier étage n°' + (floorToEdit?.numero ?? '')" [size]="'lg'" (close)="closeModalEditFloor()">
+  <div class="flex flex-col md:flex-row gap-4 justify-between mb-4">
+    <div class="form__group">
+      <label for="editFNumero">Numéro d'étage</label>
+      <input type="number" id="editFNumero" class="form__input" [(ngModel)]="editFNumero" min="0">
+    </div>
+    <div class="form__group">
+      <label for="editFCapacite">Capacité</label>
+      <input type="number" id="editFCapacite" class="form__input" [(ngModel)]="editFCapacite" min="1">
+    </div>
+  </div>
+  <div class="form__group mb-4">
+    <label for="editFBuildingId">Bâtiment</label>
+    <select id="editFBuildingId" class="form__input" [(ngModel)]="editFBuildingId">
+      <option [ngValue]="null" disabled>Sélectionner un bâtiment</option>
+      <option *ngFor="let b of buildings" [ngValue]="b.id">{{ b.nom }}</option>
+    </select>
+  </div>
+  <hr>
+  <div class="flex justify-center gap-2 mt-4">
+    <button class="flex-none rounded-md bg-primary px-4 py-2.5 text-xs font-semibold text-primary-foreground" (click)="editFloor()">Enregistrer</button>
+    <button class="flex-none rounded-md bg-gray-900 px-4 py-2.5 text-xs font-semibold text-primary-foreground" (click)="closeModalEditFloor()">Annuler</button>
+  </div>
+</app-modal>
+
+<!-- Supprimer étage -->
+<app-modal [isOpen]="modalFloorDeleteOpen" title="Supprimer étage" [size]="'md'" (close)="closeModalDeleteFloor()">
+  <p class="text-lg text-justify text-red-700 dark:text-red-400">
+    Êtes-vous sûr de vouloir <span class="font-semibold text-red-600 dark:text-red-300">supprimer l'étage n°</span>
+    &nbsp;<span class="font-bold text-slate-800 dark:text-white">{{ floorToDelete?.numero }}</span>&nbsp;?
+  </p>
+  <br>
+  <p class="text-xs text-gray-500 dark:text-zinc-300 mt-2">Cette action supprimera définitivement l'étage du système.</p>
+  <br><hr>
+  <div class="flex justify-center gap-2 mt-4">
+    <button class="flex-none rounded-md bg-red-600 px-4 py-2.5 text-xs font-semibold text-white" (click)="deleteFloor()">Supprimer</button>
+    <button class="flex-none rounded-md bg-gray-900 px-4 py-2.5 text-xs font-semibold text-primary-foreground" (click)="closeModalDeleteFloor()">Annuler</button>
+  </div>
+</app-modal>

@@ -22,5 +22,14 @@ export const API_CONFIG = {
     CLASS: {
       BASE: '/classrooms',
     },
+    BUILDING: {
+      BASE: '/buildings',
+    },
+    FLOOR: {
+      BASE: '/floors',
+    },
+    ROOM: {
+      BASE: '/rooms'
+    }
   },
 };
