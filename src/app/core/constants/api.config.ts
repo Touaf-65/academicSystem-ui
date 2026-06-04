@@ -37,5 +37,17 @@ export const API_CONFIG = {
     COURSE: {
       BASE: '/courses',
     },
+    STUDENT: {
+      BASE: '/students',
+    },
+    ENROLLMENT: {
+      BASE: '/enrollments',
+    },
+    GROUP: {
+      BASE: '/groups',
+    },
+    PLANNING: {
+      BASE: '/schedules',
+    },
   },
 };

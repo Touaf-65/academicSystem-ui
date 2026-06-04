@@ -1,532 +1,207 @@
+<app-notifications></app-notifications>
+
 <div class="container mx-auto px-4 py-6 space-y-8">
 
-  <div class="flex items-center justify-between mb-6 rounded-xl bg-background p-4 border border-border/50 shadow-sm">
+  <div class="flex flex-col rounded-lg bg-background p-4 border border-border/50 shadow-lg">
 
-    <div>
-      <h1 class="text-2xl font-semibold text-foreground">Bâtiments & Etages</h1>
-      <p class="text-sm text-muted-foreground mt-1">
-        Gestion des Bâtiments et Etages
-      </p>
-    </div>
-
-  </div>
-
-  <!-- Filtres Tabs -->
-  <div class="flex items-center gap-2 mb-6">
-
-    <button class="px-4 py-2 text-sm rounded-lg bg-blue-100 text-blue-600 font-medium">
-      Bâtiments
-    </button>
-
-    <button class="px-4 py-2 text-sm rounded-lg text-muted-foreground hover:bg-muted">
-      Etages
-    </button>
-
-  </div>
-
-
-  <div class="flex flex-col  col-span-3 rounded-lg bg-background p-4 border border-border/50 shadow-lg hover:shadow-xl transition-shadow duration-300">
-
-
-    <!-- Container principal -->
-    <!-- Header -->
+    <!-- HEADER -->
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-
-      <!-- Titre -->
       <div>
-        <h2 class="text-xl font-semibold text-foreground">
-          Programmes
-        </h2>
-
+        <h2 class="text-xl font-semibold text-foreground">Inscriptions</h2>
         <p class="text-sm text-muted-foreground mt-1">
-          Gestion des programmes des Bâtiments
+          Gestion des inscriptions académiques
         </p>
       </div>
 
-      <!-- Bouton ajout -->
       <button
-        class="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow hover:opacity-90 transition-all duration-200">
-
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M12 4v16m8-8H4">
-          </path>
-        </svg>
-
-        Ajouter un programme
+        (click)="openModalCreate()"
+        class="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm text-primary-foreground">
+        ➕ Ajouter une inscription
       </button>
     </div>
 
-    <!-- Select Container -->
-    <div class="grid grid-cols-1 md:grid-cols-5 flex flex-col md:flex-row md:items-center md:justify-between gap-5 mb-6">
+    <!-- FILTRES -->
+    <div class="flex flex-wrap gap-3 mb-6">
 
-      <!-- Select Wrapper -->
-      <div class="mb-6 relative col-span-2">
+      <!-- Recherche -->
+      <input
+        type="text"
+        placeholder="Rechercher étudiant..."
+        [(ngModel)]="searchQuery"
+        (ngModelChange)="onSearchChange()"
+        class="input">
 
-        <!-- Select -->
-        <select
-          id="department"
-          class="w-full appearance-none rounded-lg border border-border bg-background px-4 py-2.5 pr-10 text-sm text-foreground shadow-sm outline-none transition-all duration-200 hover:border-primary/40 focus:border-primary focus:ring-2 focus:ring-primary/20">
+      <!-- Department -->
+      <select [(ngModel)]="filterDepartmentId" (change)="onFilterDeptChange()" class="input">
+        <option [ngValue]="null">Département</option>
+        <option *ngFor="let d of departments" [ngValue]="d.id">{{ d.nom }}</option>
+      </select>
 
-          <option value="">
-            Sélectionner un département
-          </option>
+      <!-- Program -->
+      <select [(ngModel)]="filterProgramId" (change)="onFilterProgramChange()" class="input">
+        <option [ngValue]="null">Programme</option>
+        <option *ngFor="let p of filteredProgramsForFilter" [ngValue]="p.id">{{ p.nom }}</option>
+      </select>
 
-          <option value="fst">
-            Faculté des Sciences et Technologies
-          </option>
+      <!-- Cycle -->
+      <select [(ngModel)]="filterCycleId" (change)="onFilterCycleChange()" class="input">
+        <option [ngValue]="null">Cycle</option>
+        <option *ngFor="let c of filteredCyclesForFilter" [ngValue]="c.id">{{ c.nom }}</option>
+      </select>
 
-          <option value="fse">
-            Faculté des Sciences Économiques
-          </option>
+      <!-- Niveau -->
+      <select [(ngModel)]="filterLevelId" (change)="onFilterLevelChange()" class="input">
+        <option [ngValue]="null">Niveau</option>
+        <option *ngFor="let l of filteredLevelsForFilter" [ngValue]="l.id">{{ l.nom }}</option>
+      </select>
 
-          <option value="flsh">
-            Faculté des Lettres et Sciences Humaines
-          </option>
+      <!-- Classe -->
+      <select [(ngModel)]="filterClassRoomId" (change)="onFilterClassRoomChange()" class="input">
+        <option [ngValue]="null">Classe</option>
+        <option *ngFor="let c of filteredClassRoomsForFilter" [ngValue]="c.id">{{ c.nom }}</option>
+      </select>
 
-          <option value="fm">
-            Faculté de Médecine
-          </option>
+      <!-- Année -->
+      <select [(ngModel)]="filterAcademicYear" (change)="onFilterYearChange()" class="input">
+        <option value="">Année</option>
+        <option *ngFor="let y of availableAcademicYears" [value]="y">{{ y }}</option>
+      </select>
 
-        </select>
-
-        <!-- Icon -->
-        <div
-          class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground">
-
-          <svg
-            class="h-4 w-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m19 9-7 7-7-7">
-            </path>
-          </svg>
-        </div>
-      </div>
-
-      <!-- Barre de recherche -->
-      <div class="mb-6 col-span-3">
-        <div class="relative w-full">
-
-          <!-- Icon -->
-          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <svg class="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="m21 21-4.35-4.35M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z">
-              </path>
-            </svg>
-          </div>
-
-          <!-- Input -->
-          <input
-            type="text"
-            placeholder="Rechercher un programme..."
-            class="w-full rounded-lg border border-border bg-background px-10 py-2.5 text-sm text-foreground outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/20">
-        </div>
-      </div>
-
+      <button *ngIf="hasActiveFilters" (click)="resetFilters()" class="btn-secondary">
+        Reset
+      </button>
     </div>
 
-    <!-- Table -->
+    <!-- TABLE -->
     <div class="overflow-x-auto rounded-xl border border-border/50">
-
-      <table class="w-full text-sm text-left text-foreground">
-
-        <!-- Header -->
-        <thead class="bg-background border-b border-border/50 text-xs uppercase text-muted-foreground">
+      <table class="w-full text-sm">
+        <thead class="text-muted-foreground text-xs uppercase">
         <tr>
-          <th class="px-6 py-4 font-semibold">Nom du programme</th>
-          <th class="px-6 py-4 font-semibold">Code</th>
-          <th class="px-6 py-4 font-semibold text-center">Cycle</th>
-          <th class="px-6 py-4 font-semibold text-center">Actions</th>
+          <th class="px-4 py-3">Étudiant</th>
+          <th class="px-4 py-3">Matricule</th>
+          <th class="px-4 py-3">Classe</th>
+          <th class="px-4 py-3">Hiérarchie</th>
+          <th class="px-4 py-3">Année</th>
+          <th class="px-4 py-3 text-center">Actions</th>
         </tr>
         </thead>
 
-        <!-- Body -->
         <tbody>
+        <tr *ngFor="let e of filteredEnrollments">
 
-        <!-- Row 1 -->
-        <tr class="border-b border-border/40 hover:bg-muted/40 transition-colors duration-200">
-
-          <td class="px-6 py-4 font-medium">
-            Faculté des Sciences et Technologies
+          <td class="px-4 py-3 font-medium">
+            {{ getStudentFullName(e.studentId) }}
           </td>
 
-          <td class="px-6 py-4">
-            <span
-              class="inline-flex items-center rounded-md bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
-              FST
-            </span>
+          <td class="px-4 py-3">
+            {{ getStudentMatricule(e.studentId) }}
           </td>
 
-          <td class="px-6 py-4 text-center">
-            <span
-              class="inline-flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 px-3 py-1 text-xs font-semibold text-green-700 dark:text-green-300">
-              Licence, Master
-            </span>
+          <td class="px-4 py-3">
+            {{ getClassRoomName(e.classRoomId) }}
           </td>
 
-          <!-- Actions -->
-          <td class="px-6 py-4">
-            <div class="flex items-center justify-center gap-3">
+          <td class="px-4 py-3 text-muted-foreground">
+            {{ getHierarchyLabel(e.classRoomId) }}
+          </td>
 
-              <!-- Voir -->
-              <button class="text-primary hover:text-primary/70 transition-colors">
+          <td class="px-4 py-3">
+              <span class="badge">
+                {{ e.academicYear }}
+              </span>
+          </td>
 
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z">
-                  </path>
-                </svg>
-              </button>
-
-              <!-- Edit -->
-              <button class="text-amber-500 hover:text-amber-600 transition-colors">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5Z">
-                  </path>
-                </svg>
-              </button>
-
-              <!-- Delete -->
-              <button class="text-red-500 hover:text-red-600 transition-colors">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 7h12">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 7V4h6v3">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M10 11v6">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M14 11v6">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 7l1 13h12l1-13">
-                  </path>
-                </svg>
-              </button>
-
-            </div>
+          <td class="px-4 py-3 text-center">
+            <button (click)="openModalView(e)">👁</button>
+            <button (click)="openModalDelete(e)" class="text-red-500">🗑</button>
           </td>
         </tr>
 
-        <!-- Row 2 -->
-        <tr class="border-b border-border/40 hover:bg-muted/40 transition-colors duration-200 bg-muted/10">
-
-          <td class="px-6 py-4 font-medium">
-            Faculté des Sciences Économiques
-          </td>
-
-          <td class="px-6 py-4">
-            <span
-              class="inline-flex items-center rounded-md bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
-              FSE
-            </span>
-          </td>
-
-          <td class="px-6 py-4 text-center">
-            <span
-              class="inline-flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 px-3 py-1 text-xs font-semibold text-green-700 dark:text-green-300">
-              Licence
-            </span>
-          </td>
-          <td class="px-6 py-4">
-            <div class="flex items-center justify-center gap-3">
-
-              <button class="text-primary hover:text-primary/70 transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z">
-                  </path>
-
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z">
-                  </path>
-                </svg>
-              </button>
-
-              <button class="text-amber-500 hover:text-amber-600 transition-colors">
-                ✏️
-              </button>
-
-              <button class="text-red-500 hover:text-red-600 transition-colors">
-                🗑️
-              </button>
-
-            </div>
+        <tr *ngIf="filteredEnrollments.length === 0">
+          <td colspan="6" class="text-center py-8 text-muted-foreground">
+            Aucune inscription trouvée
           </td>
         </tr>
-
-        <!-- Row 1 -->
-        <tr class="border-b border-border/40 hover:bg-muted/40 transition-colors duration-200">
-
-          <td class="px-6 py-4 font-medium">
-            Faculté des Sciences et Technologies
-          </td>
-
-          <td class="px-6 py-4">
-            <span
-              class="inline-flex items-center rounded-md bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
-              FST
-            </span>
-          </td>
-
-          <td class="px-6 py-4 text-center">
-            <span
-              class="inline-flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 px-3 py-1 text-xs font-semibold text-green-700 dark:text-green-300">
-              Licence, Master, Doctorat
-            </span>
-          </td>
-
-          <!-- Actions -->
-          <td class="px-6 py-4">
-            <div class="flex items-center justify-center gap-3">
-
-              <!-- Voir -->
-              <button class="text-primary hover:text-primary/70 transition-colors">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z">
-                  </path>
-                </svg>
-              </button>
-
-              <!-- Edit -->
-              <button class="text-amber-500 hover:text-amber-600 transition-colors">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5Z">
-                  </path>
-                </svg>
-              </button>
-
-              <!-- Delete -->
-              <button class="text-red-500 hover:text-red-600 transition-colors">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 7h12">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 7V4h6v3">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M10 11v6">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M14 11v6">
-                  </path>
-
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 7l1 13h12l1-13">
-                  </path>
-                </svg>
-              </button>
-
-            </div>
-          </td>
-        </tr>
-
-        <!-- Row 2 -->
-        <tr class="border-b border-border/40 hover:bg-muted/40 transition-colors duration-200 bg-muted/10">
-
-          <td class="px-6 py-4 font-medium">
-            Faculté des Sciences Économiques
-          </td>
-
-          <td class="px-6 py-4">
-            <span
-              class="inline-flex items-center rounded-md bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
-              FSE
-            </span>
-          </td>
-
-          <td class="px-6 py-4 text-center">
-            <span
-              class="inline-flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 px-3 py-1 text-xs font-semibold text-green-700 dark:text-green-300">
-              Doctorat
-            </span>
-          </td>
-
-          <td class="px-6 py-4">
-            <div class="flex items-center justify-center gap-3">
-
-              <button class="text-primary hover:text-primary/70 transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z">
-                  </path>
-
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z">
-                  </path>
-                </svg>
-              </button>
-
-              <button class="text-amber-500 hover:text-amber-600 transition-colors">
-                ✏️
-              </button>
-
-              <button class="text-red-500 hover:text-red-600 transition-colors">
-                🗑️
-              </button>
-
-            </div>
-          </td>
-        </tr>
-
         </tbody>
       </table>
     </div>
 
-    <!-- Footer -->
-    <div class="mt-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-
-      <!-- Results -->
-      <p class="text-sm text-muted-foreground">
-        Affichage de
-        <span class="font-medium text-foreground">1</span>
-        à
-        <span class="font-medium text-foreground">2</span>
-        sur
-        <span class="font-medium text-foreground">6</span>
-        résultats
-      </p>
-
-      <!-- Pagination -->
-      <div class="flex items-center gap-2">
-
-        <!-- Previous -->
-        <button
-          class="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground hover:bg-muted transition-colors">
-
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m15 19-7-7 7-7">
-            </path>
-          </svg>
-        </button>
-
-        <!-- Active page -->
-        <button
-          class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-medium shadow">
-          1
-        </button>
-
-        <!-- Next -->
-        <button
-          class="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground hover:bg-muted transition-colors">
-
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m9 5 7 7-7 7">
-            </path>
-          </svg>
-        </button>
-      </div>
+    <!-- FOOTER -->
+    <div class="mt-4 text-sm text-muted-foreground">
+      {{ filteredEnrollments.length }} / {{ enrollments.length }} inscription(s)
     </div>
+
   </div>
 </div>
+
+<!-- MODAL CREATE -->
+<app-modal [isOpen]="modalCreateOpen" title="Nouvelle inscription" (close)="closeModalCreate()">
+
+  <!-- Étudiant -->
+  <input
+    type="text"
+    placeholder="Rechercher étudiant..."
+    [(ngModel)]="studentSearchQuery"
+    class="input mb-2">
+
+  <select [(ngModel)]="eStudentId" class="input mb-4">
+    <option [ngValue]="null">Choisir étudiant</option>
+    <option *ngFor="let s of filteredStudentsForCreate" [ngValue]="s.id">
+      {{ s.nom }} - {{ s.matricule }}
+    </option>
+  </select>
+
+  <!-- Cascade -->
+  <select [(ngModel)]="eDepartmentId" (change)="onCreateDeptChange()" class="input mb-2">
+    <option [ngValue]="null">Département</option>
+    <option *ngFor="let d of departments" [ngValue]="d.id">{{ d.nom }}</option>
+  </select>
+
+  <select [(ngModel)]="eProgramId" (change)="onCreateProgramChange()" class="input mb-2">
+    <option [ngValue]="null">Programme</option>
+    <option *ngFor="let p of filteredProgramsForCreate" [ngValue]="p.id">{{ p.nom }}</option>
+  </select>
+
+  <select [(ngModel)]="eCycleId" (change)="onCreateCycleChange()" class="input mb-2">
+    <option [ngValue]="null">Cycle</option>
+    <option *ngFor="let c of filteredCyclesForCreate" [ngValue]="c.id">{{ c.nom }}</option>
+  </select>
+
+  <select [(ngModel)]="eLevelId" (change)="onCreateLevelChange()" class="input mb-2">
+    <option [ngValue]="null">Niveau</option>
+    <option *ngFor="let l of filteredLevelsForCreate" [ngValue]="l.id">{{ l.nom }}</option>
+  </select>
+
+  <select [(ngModel)]="eClassRoomId" class="input mb-4">
+    <option [ngValue]="null">Classe</option>
+    <option *ngFor="let c of filteredClassRoomsForCreate" [ngValue]="c.id">{{ c.nom }}</option>
+  </select>
+
+  <input
+    type="text"
+    [(ngModel)]="eAcademicYear"
+    placeholder="Année (ex: 2024-2025)"
+    class="input mb-4">
+
+  <button (click)="createEnrollment()" class="btn-primary w-full">
+    Créer
+  </button>
+
+</app-modal>
+
+<!-- MODAL VIEW -->
+<app-modal [isOpen]="modalViewOpen" title="Détail inscription" (close)="closeModalView()">
+  <p><strong>Étudiant :</strong> {{ getStudentFullName(enrollmentToView?.studentId!) }}</p>
+  <p><strong>Classe :</strong> {{ getClassRoomName(enrollmentToView?.classRoomId!) }}</p>
+  <p><strong>Année :</strong> {{ enrollmentToView?.academicYear }}</p>
+</app-modal>
+
+<!-- MODAL DELETE -->
+<app-modal [isOpen]="modalDeleteOpen" title="Supprimer inscription" (close)="closeModalDelete()">
+  <p>Voulez-vous supprimer cette inscription ?</p>
+
+  <div class="flex gap-2 mt-4">
+    <button (click)="deleteEnrollment()" class="btn-danger">Supprimer</button>
+    <button (click)="closeModalDelete()" class="btn-secondary">Annuler</button>
+  </div>
+</app-modal>
